@@ -16,7 +16,7 @@ struct ContentView: View {
     
     var body: some View {
         chatListView
-            .navigationTitle("실전 면접")
+            .navigationTitle("XCA ChatGPT")
     }
     
     var chatListView: some View {
