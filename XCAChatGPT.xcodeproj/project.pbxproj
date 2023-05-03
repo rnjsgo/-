@@ -52,8 +52,13 @@
 		8BC0F8DA29F1583300D6B492 /* ParserResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC0F8D629F1583300D6B492 /* ParserResult.swift */; };
 		8BC0F8DC29F1587600D6B492 /* ResponseParsingTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC0F8DB29F1587600D6B492 /* ResponseParsingTask.swift */; };
 		8BC0F8DE29F1589600D6B492 /* CodeBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC0F8DD29F1589600D6B492 /* CodeBlockView.swift */; };
-		E150DCA22A021C200075EE4A /* MenuButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E150DCA12A021C200075EE4A /* MenuButtonView.swift */; };
+		E150DCA22A021C200075EE4A /* MenuButtonVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E150DCA12A021C200075EE4A /* MenuButtonVC.swift */; };
 		E150DCA42A022AC70075EE4A /* EdgeInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = E150DCA32A022AC70075EE4A /* EdgeInsets.swift */; };
+		E150DCA62A0268E40075EE4A /* TESTVIEW.swift in Sources */ = {isa = PBXBuildFile; fileRef = E150DCA52A0268E40075EE4A /* TESTVIEW.swift */; };
+		E150DCA82A026E470075EE4A /* ColorHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = E150DCA72A026E470075EE4A /* ColorHex.swift */; };
+		E150DCAC2A0272260075EE4A /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E150DCAB2A0272260075EE4A /* HomeView.swift */; };
+		E150DCAE2A027FF00075EE4A /* SingleInterviewCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E150DCAD2A027FF00075EE4A /* SingleInterviewCategory.swift */; };
+		E150DCB02A0282CB0075EE4A /* CoverletterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E150DCAF2A0282CB0075EE4A /* CoverletterView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,8 +108,13 @@
 		8BC0F8D629F1583300D6B492 /* ParserResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserResult.swift; sourceTree = "<group>"; };
 		8BC0F8DB29F1587600D6B492 /* ResponseParsingTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseParsingTask.swift; sourceTree = "<group>"; };
 		8BC0F8DD29F1589600D6B492 /* CodeBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeBlockView.swift; sourceTree = "<group>"; };
-		E150DCA12A021C200075EE4A /* MenuButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtonView.swift; sourceTree = "<group>"; };
+		E150DCA12A021C200075EE4A /* MenuButtonVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtonVC.swift; sourceTree = "<group>"; };
 		E150DCA32A022AC70075EE4A /* EdgeInsets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeInsets.swift; sourceTree = "<group>"; };
+		E150DCA52A0268E40075EE4A /* TESTVIEW.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TESTVIEW.swift; sourceTree = "<group>"; };
+		E150DCA72A026E470075EE4A /* ColorHex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorHex.swift; sourceTree = "<group>"; };
+		E150DCAB2A0272260075EE4A /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		E150DCAD2A027FF00075EE4A /* SingleInterviewCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleInterviewCategory.swift; sourceTree = "<group>"; };
+		E150DCAF2A0282CB0075EE4A /* CoverletterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoverletterView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,8 +166,10 @@
 				8BC0F8D629F1583300D6B492 /* ParserResult.swift */,
 				8BC0F8DB29F1587600D6B492 /* ResponseParsingTask.swift */,
 				8BC0F8DD29F1589600D6B492 /* CodeBlockView.swift */,
-				E150DCA12A021C200075EE4A /* MenuButtonView.swift */,
+				E150DCA12A021C200075EE4A /* MenuButtonVC.swift */,
 				E150DCA32A022AC70075EE4A /* EdgeInsets.swift */,
+				E150DCA52A0268E40075EE4A /* TESTVIEW.swift */,
+				E150DCA72A026E470075EE4A /* ColorHex.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -192,6 +204,9 @@
 				8B612E2429D68CC9008DF5AF /* TokenizerViewModel.swift */,
 				8B91C007298AD09F0079AF26 /* Assets.xcassets */,
 				8B91C009298AD09F0079AF26 /* Preview Content */,
+				E150DCAB2A0272260075EE4A /* HomeView.swift */,
+				E150DCAD2A027FF00075EE4A /* SingleInterviewCategory.swift */,
+				E150DCAF2A0282CB0075EE4A /* CoverletterView.swift */,
 			);
 			path = XCAChatGPT;
 			sourceTree = "<group>";
@@ -445,13 +460,18 @@
 				8B91C006298AD09E0079AF26 /* ContentView.swift in Sources */,
 				8BC0F8DC29F1587600D6B492 /* ResponseParsingTask.swift in Sources */,
 				8B612E2629D68CC9008DF5AF /* TokenizerView.swift in Sources */,
+				E150DCAE2A027FF00075EE4A /* SingleInterviewCategory.swift in Sources */,
 				8B612E2729D68CC9008DF5AF /* TokenizerViewModel.swift in Sources */,
-				E150DCA22A021C200075EE4A /* MenuButtonView.swift in Sources */,
+				E150DCA22A021C200075EE4A /* MenuButtonVC.swift in Sources */,
 				8B82463429B1F49F0069B8F7 /* ChatGPTAPIModels.swift in Sources */,
 				8BC0F8DE29F1589600D6B492 /* CodeBlockView.swift in Sources */,
+				E150DCA62A0268E40075EE4A /* TESTVIEW.swift in Sources */,
 				8B91C014298ADC560079AF26 /* ViewModel.swift in Sources */,
 				8BC0F8D729F1583300D6B492 /* ParserResult.swift in Sources */,
+				E150DCB02A0282CB0075EE4A /* CoverletterView.swift in Sources */,
+				E150DCA82A026E470075EE4A /* ColorHex.swift in Sources */,
 				8B91C018298ADF4E0079AF26 /* DotLoadingView.swift in Sources */,
+				E150DCAC2A0272260075EE4A /* HomeView.swift in Sources */,
 				8B91C004298AD09E0079AF26 /* XCAChatGPTApp.swift in Sources */,
 				8B612E2529D68CC9008DF5AF /* TextView.swift in Sources */,
 				8B91C01A298ADF7F0079AF26 /* MessageRowView.swift in Sources */,
@@ -798,7 +818,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"XCAChatGPT/Preview Content\"";
-				DEVELOPMENT_TEAM = 5C2XD9H2JS;
+				DEVELOPMENT_TEAM = 64HU7X93SP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -806,12 +826,13 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.alfianlosari.XCAChatGPT;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.max8276.jnu-cap";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -827,7 +848,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"XCAChatGPT/Preview Content\"";
-				DEVELOPMENT_TEAM = 5C2XD9H2JS;
+				DEVELOPMENT_TEAM = 64HU7X93SP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -835,12 +856,13 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.alfianlosari.XCAChatGPT;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.max8276.jnu-cap";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
