@@ -19,6 +19,10 @@ repositories {
 }
 
 dependencies {
+	implementation 'net.bramp.ffmpeg:ffmpeg:0.7.0'
+	implementation 'com.google.cloud:google-cloud-speech:4.7.0'
+	implementation 'com.google.cloud:google-cloud-texttospeech:2.15.0'
+	implementation 'com.google.auth:google-auth-library-oauth2-http:1.16.0'
 	implementation 'org.json:json:20180813'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'mysql:mysql-connector-java:8.0.32'
@@ -26,6 +30,7 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
 }
 
 tasks.named('test') {
