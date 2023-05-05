@@ -25,6 +25,9 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+*.mp3
+*.m4a
+*.wav
 
 ### NetBeans ###
 /nbproject/private/
