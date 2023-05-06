@@ -31,9 +31,7 @@ struct MessageRowView: View {
             messageRow(rowType: message.send, image: message.sendImage, bgColor: colorScheme == .light ? .white : Color(red: 52/255, green: 53/255, blue: 65/255, opacity: 0.5))
             
             if let response = message.response {
-                Divider()
-                messageRow(rowType: response, image: message.responseImage, bgColor: colorScheme == .light ? .gray.opacity(0.1) : Color(red: 52/255, green: 53/255, blue: 65/255, opacity: 1), responseError: message.responseError, showDotLoading: message.isInteractingWithChatGPT)
-                Divider()
+                messageRow(rowType: response, image: message.responseImage, bgColor: colorScheme == .light ? .white : Color(red: 52/255, green: 53/255, blue: 65/255, opacity: 1), responseError: message.responseError, showDotLoading: message.isInteractingWithChatGPT)
             }
         }
     }
@@ -48,17 +46,24 @@ struct MessageRowView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(bgColor)
         #else
-        HStack(alignment: .top, spacing: 24) {
-            messageRowContent(rowType: rowType, image: image, responseError: responseError, showDotLoading: showDotLoading)
+        VStack{
+            HStack(alignment: .top, spacing: 24) {
+                messageRowContent(rowType: rowType, image: image, responseError: responseError, showDotLoading: showDotLoading)
+            }
+            #if os(tvOS)
+            .padding(32)
+            #else
+            .padding(16)
+            #endif
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(bgColor)
+            HStack{
+                Spacer().frame(width:172)
+                Rectangle().size(width:50, height:1).foregroundColor(Color(hex: "#7B7B7B"))
+            }
         }
-        #if os(tvOS)
-        .padding(32)
-        #else
-        .padding(16)
         #endif
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(bgColor)
-        #endif
+            
     }
     
     @ViewBuilder
@@ -94,6 +99,7 @@ struct MessageRowView: View {
                         .textSelection(.enabled)
                         #endif
                     #endif
+                    
                 }
             }
             

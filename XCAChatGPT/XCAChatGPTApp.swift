@@ -10,37 +10,37 @@ import SwiftUI
 @main
 struct XCAChatGPTApp: App {
     
-    @StateObject var vm = ViewModel(api: ChatGPTAPI(apiKey: "PROVIDE_API_KEY"))
+    @StateObject var vm = ViewModel(api: ChatGPTAPI(apiKey: "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"))
     @State var isShowingTokenizer = false
     
     var body: some Scene {
-//        WindowGroup {
-//            NavigationStack {
-//                ContentView(vm: vm)
-//                    .toolbar {
-//                        ToolbarItem {
-//                            Button("Clear") {
-//                                vm.clearMessages()
-//                            }
-//                            .disabled(vm.isInteractingWithChatGPT)
-//                        }
-//
-//                        ToolbarItem(placement: .navigationBarLeading) {
-//                            Button("Tokenizer") {
-//                                self.isShowingTokenizer = true
-//                            }
-//                            .disabled(vm.isInteractingWithChatGPT)
-//                        }
-//                    }
-//            }
-//            .fullScreenCover(isPresented: $isShowingTokenizer) {
-//                NavigationTokenView()
-//            }
-//        }
-        WindowGroup{
-            CoverletterView()
-            //TokenizerView()
+        WindowGroup {
+            NavigationStack {
+                ContentView(vm: vm)
+                    .toolbar {
+                        ToolbarItem {
+                            Button("Clear") {
+                                vm.clearMessages()
+                            }
+                            .disabled(vm.isInteractingWithChatGPT)
+                        }
+
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            Button("Tokenizer") {
+                                self.isShowingTokenizer = true
+                            }
+                            .disabled(vm.isInteractingWithChatGPT)
+                        }
+                    }
+            }
+            .fullScreenCover(isPresented: $isShowingTokenizer) {
+                NavigationTokenView()
+            }
         }
+//        WindowGroup{
+//            CoverletterView()
+//            //TokenizerView()
+//        }
     }
 }
 
