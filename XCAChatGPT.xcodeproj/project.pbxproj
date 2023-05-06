@@ -59,6 +59,9 @@
 		E150DCAC2A0272260075EE4A /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E150DCAB2A0272260075EE4A /* HomeView.swift */; };
 		E150DCAE2A027FF00075EE4A /* SingleInterviewCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E150DCAD2A027FF00075EE4A /* SingleInterviewCategory.swift */; };
 		E150DCB02A0282CB0075EE4A /* CoverletterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E150DCAF2A0282CB0075EE4A /* CoverletterView.swift */; };
+		E1B621D62A0671BF00AB79E3 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B621D52A0671BF00AB79E3 /* ChatView.swift */; };
+		E1C661AA2A035E0A002CCEAF /* SentenceButtonVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C661A92A035E0A002CCEAF /* SentenceButtonVC.swift */; };
+		E1C661AC2A0363EA002CCEAF /* SentenceSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C661AB2A0363E9002CCEAF /* SentenceSelectView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -115,6 +118,9 @@
 		E150DCAB2A0272260075EE4A /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		E150DCAD2A027FF00075EE4A /* SingleInterviewCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleInterviewCategory.swift; sourceTree = "<group>"; };
 		E150DCAF2A0282CB0075EE4A /* CoverletterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoverletterView.swift; sourceTree = "<group>"; };
+		E1B621D52A0671BF00AB79E3 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		E1C661A92A035E0A002CCEAF /* SentenceButtonVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentenceButtonVC.swift; sourceTree = "<group>"; };
+		E1C661AB2A0363E9002CCEAF /* SentenceSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentenceSelectView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +176,7 @@
 				E150DCA32A022AC70075EE4A /* EdgeInsets.swift */,
 				E150DCA52A0268E40075EE4A /* TESTVIEW.swift */,
 				E150DCA72A026E470075EE4A /* ColorHex.swift */,
+				E1C661A92A035E0A002CCEAF /* SentenceButtonVC.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -207,6 +214,8 @@
 				E150DCAB2A0272260075EE4A /* HomeView.swift */,
 				E150DCAD2A027FF00075EE4A /* SingleInterviewCategory.swift */,
 				E150DCAF2A0282CB0075EE4A /* CoverletterView.swift */,
+				E1C661AB2A0363E9002CCEAF /* SentenceSelectView.swift */,
+				E1B621D52A0671BF00AB79E3 /* ChatView.swift */,
 			);
 			path = XCAChatGPT;
 			sourceTree = "<group>";
@@ -458,6 +467,8 @@
 			files = (
 				8B91C012298AD0CE0079AF26 /* ChatGPTAPI.swift in Sources */,
 				8B91C006298AD09E0079AF26 /* ContentView.swift in Sources */,
+				E1C661AA2A035E0A002CCEAF /* SentenceButtonVC.swift in Sources */,
+				E1C661AC2A0363EA002CCEAF /* SentenceSelectView.swift in Sources */,
 				8BC0F8DC29F1587600D6B492 /* ResponseParsingTask.swift in Sources */,
 				8B612E2629D68CC9008DF5AF /* TokenizerView.swift in Sources */,
 				E150DCAE2A027FF00075EE4A /* SingleInterviewCategory.swift in Sources */,
@@ -471,6 +482,7 @@
 				E150DCB02A0282CB0075EE4A /* CoverletterView.swift in Sources */,
 				E150DCA82A026E470075EE4A /* ColorHex.swift in Sources */,
 				8B91C018298ADF4E0079AF26 /* DotLoadingView.swift in Sources */,
+				E1B621D62A0671BF00AB79E3 /* ChatView.swift in Sources */,
 				E150DCAC2A0272260075EE4A /* HomeView.swift in Sources */,
 				8B91C004298AD09E0079AF26 /* XCAChatGPTApp.swift in Sources */,
 				8B612E2529D68CC9008DF5AF /* TextView.swift in Sources */,

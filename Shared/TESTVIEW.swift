@@ -12,8 +12,8 @@ struct TESTVIEW: View {
         Button(action: {
             print("test")
         }, label:{
-            Text("실전면접").font(.custom("Arial", size: 25)).foregroundColor(Color(hex: "#7B7B7B"))
-        }).buttonStyle(MenuButton())
+            Text("실전면접").font(.custom("Arial", size: 20)).foregroundColor(Color(hex: "#707070"))
+        }).buttonStyle(SentenceButton())
     }
 }
 
