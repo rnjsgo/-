@@ -1,12 +1,13 @@
 package hangangview.appserver.service;
 
-import hangangview.appserver.domain.Creativity;
+
 import hangangview.appserver.domain.Question;
 import hangangview.appserver.repository.CreativityRepository;
 import hangangview.appserver.repository.PersonalityRepository;
 import hangangview.appserver.repository.SocialRepository;
 import hangangview.appserver.repository.SuitabilityRepository;
 import lombok.RequiredArgsConstructor;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,6 @@ public class QuestionService {
     private final SuitabilityRepository suitabilityRepository;
 
     public JSONObject getQuestionList(String category) throws Exception {
-        JSONObject jsonObject=new JSONObject();
         Question[] questionList;
         if(category.equals("creativity")){
             questionList=creativityRepository.findAll().toArray(new Question[0]);
@@ -41,9 +41,12 @@ public class QuestionService {
         else{
             throw new Exception();
         }
+        JSONObject jsonObject=new JSONObject();
+        JSONArray jsonArray=new JSONArray();
         for(Question question:questionList){
-            jsonObject.put(question.getId().toString(),question.getQuestion());
+            jsonArray.put(new JSONObject().put("question",question.getQuestion()));
         }
+        jsonObject.put("question",jsonArray);
         return jsonObject;
     }
 }

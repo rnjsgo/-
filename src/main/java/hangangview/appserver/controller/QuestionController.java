@@ -2,6 +2,7 @@ package hangangview.appserver.controller;
 
 import hangangview.appserver.service.QuestionService;
 import lombok.RequiredArgsConstructor;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +20,7 @@ public class QuestionController {
     public String question(@PathVariable("category")String category){
         JSONObject jsonObject=new JSONObject();
         try {
-            jsonObject=questionService.getQuestionList(category);
+            jsonObject =questionService.getQuestionList(category);
         } catch (Exception e) {
         }
         return jsonObject.toString();
