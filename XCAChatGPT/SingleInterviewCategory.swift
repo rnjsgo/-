@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+let viewController = ViewController()
 
 struct SingleInterviewCategory: View {
     @State private var isSocial = false
@@ -35,7 +36,9 @@ struct SingleInterviewCategory: View {
                 
                 NavigationLink(destination:SentenceSelectView(title:"창의질문을")){
                     MenuButton_small_View(text:"창의성")
-                }.padding(.bottom, 30)
+                }.simultaneousGesture(TapGesture().onEnded({
+                    viewController.loginButtonTapped()
+                })).padding(.bottom, 30)
                 
                 NavigationLink(destination:SentenceSelectView(title:"사회질문을")){
                     MenuButton_small_View(text:"사회 / 시사")
