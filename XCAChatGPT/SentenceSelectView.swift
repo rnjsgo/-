@@ -8,21 +8,27 @@
 import SwiftUI
 
 struct SentenceSelectView: View {
+    var title: String
+    
     var body: some View {
         VStack{
             VStack{
-                HStack{
-                    Text("질문유형")
-                        .font(.custom("Arial-BoldMT", size: 35)).foregroundColor(Color(hex: "#7B7B7B")) +
-                    Text("을\n선택해주세요")
-                        .font(.custom("Arial", size: 35)).foregroundColor(Color(hex: "#7B7B7B"))
-                    Spacer()
+                
+            }.frame(width:400,height: 200)
+                .padding(.top,100)
+                .background(Color.white)
+                .shadow(radius:5,x:1,y:5)
+                .overlay{
+                    VStack{
+                        HStack{
+                            Text(title+"\n")
+                                .font(.custom("Arial-BoldMT", size: 32)).foregroundColor(Color(hex: "#7B7B7B")) +
+                            Text("선택해주세요")
+                                .font(.custom("Arial", size: 32)).foregroundColor(Color(hex: "#7B7B7B"))
+                            Spacer()
+                        }.frame(width: 250.0, height: 100.0).padding(.top,100)
+                    }
                 }
-                HStack{
-                    Rectangle().size(width:50, height: 2).foregroundColor(Color(hex: "#7B7B7B"))
-                    Spacer()
-                }.frame(width: 250.0, height: 2.0)
-            }.frame(width:250,height: 200).padding(.top,100)
         
         
         ScrollView{
@@ -85,7 +91,7 @@ struct SentenceSelectView: View {
 
 struct SentenceSelectView_Previews: PreviewProvider {
     static var previews: some View {
-        SentenceSelectView()
+        SentenceSelectView(title:"창의질문")
     }
 }
 

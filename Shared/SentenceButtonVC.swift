@@ -15,7 +15,6 @@ struct SentenceButton: ButtonStyle{
                 .frame(width: 390, height: 130)
                 .background(Color.white)
             HStack{
-                
                 Rectangle().size(width:84, height:1).foregroundColor(Color(hex: "#7B7B7B"))
             }.frame(width: 84, height:1)
         }

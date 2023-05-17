@@ -9,11 +9,7 @@ import SwiftUI
 
 struct TESTVIEW: View {
     var body: some View {
-        Button(action: {
-            print("test")
-        }, label:{
-            Text("실전면접").font(.custom("Arial", size: 20)).foregroundColor(Color(hex: "#707070"))
-        }).buttonStyle(SentenceButton())
+        MenuButtonView(text: "test")
     }
 }
 

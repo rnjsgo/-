@@ -62,6 +62,7 @@
 		E1B621D62A0671BF00AB79E3 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B621D52A0671BF00AB79E3 /* ChatView.swift */; };
 		E1C661AA2A035E0A002CCEAF /* SentenceButtonVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C661A92A035E0A002CCEAF /* SentenceButtonVC.swift */; };
 		E1C661AC2A0363EA002CCEAF /* SentenceSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C661AB2A0363E9002CCEAF /* SentenceSelectView.swift */; };
+		E1D8EC282A13AE9E004D8E4C /* BackButtonVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D8EC272A13AE9E004D8E4C /* BackButtonVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,6 +122,7 @@
 		E1B621D52A0671BF00AB79E3 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		E1C661A92A035E0A002CCEAF /* SentenceButtonVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentenceButtonVC.swift; sourceTree = "<group>"; };
 		E1C661AB2A0363E9002CCEAF /* SentenceSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentenceSelectView.swift; sourceTree = "<group>"; };
+		E1D8EC272A13AE9E004D8E4C /* BackButtonVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButtonVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,6 +179,7 @@
 				E150DCA52A0268E40075EE4A /* TESTVIEW.swift */,
 				E150DCA72A026E470075EE4A /* ColorHex.swift */,
 				E1C661A92A035E0A002CCEAF /* SentenceButtonVC.swift */,
+				E1D8EC272A13AE9E004D8E4C /* BackButtonVC.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -490,6 +493,7 @@
 				E150DCA42A022AC70075EE4A /* EdgeInsets.swift in Sources */,
 				8BC0F8D529F1581800D6B492 /* MarkdownAttributedStringParser.swift in Sources */,
 				8B91C016298ADC9D0079AF26 /* MessageRow.swift in Sources */,
+				E1D8EC282A13AE9E004D8E4C /* BackButtonVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

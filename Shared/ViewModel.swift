@@ -14,6 +14,7 @@ class ViewModel: ObservableObject {
     @Published var isInteractingWithChatGPT = false
     @Published var messages: [MessageRow] = []
     @Published var inputMessage: String = ""
+    @State var pathStack = NavigationPath()
     
     #if !os(watchOS)
     private var synthesizer: AVSpeechSynthesizer?
