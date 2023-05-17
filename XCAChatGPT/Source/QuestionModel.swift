@@ -9,6 +9,8 @@ import Foundation
 
 struct QuestionResponse:Codable{
     let question: [QuestionData]
+//    let question: String
+    
 }
 
 struct QuestionData:Codable{

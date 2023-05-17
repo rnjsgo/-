@@ -58,7 +58,9 @@ class GetQuestion {
         
         let decoder = JSONDecoder() //서버에서 준 데이터를 Codable을 채택
         guard let decodedData = try? decoder.decode(QuestionResponse.self, from: data)
+        
         //데이터가 변환이 되게끔 Response 모델 구조체로 데이터를 변환해서 넣고, 그 데이터를 NetworkResult Success 파라미터로 전달
+
         else { return .pathErr }
         
         return .success(decodedData as Any)

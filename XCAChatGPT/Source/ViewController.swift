@@ -1,4 +1,5 @@
 import UIKit
+import Foundation
 
 class ViewController: UIViewController {
 
@@ -24,7 +25,6 @@ extension ViewController {
     
     // 서버 통신 코드를 실제로 뷰 컨트롤러에서 호출해서 사용하는 부분입니다.
     func getQuestion() {
-        
         // 각각의 텍스트 필드의 있는 값을 받아옵니다.
 //        guard let name = nameTextField.text else { return }
 //        guard let email = emailTextField.text else { return }
@@ -37,7 +37,9 @@ extension ViewController {
             switch response {
             case .success(let data):
                 guard let data = data as? QuestionResponse else { return }
-                print(data)
+                for questionData in data.question {
+                       print(questionData.question)
+                   }
             case .requestErr(let err):
                 print(err)
             case .pathErr:
