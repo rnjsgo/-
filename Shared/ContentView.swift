@@ -9,7 +9,7 @@ import SwiftUI
 import AVKit
 
 struct ContentView: View {
-        
+    var cf:ContextFlow?
     @Environment(\.colorScheme) var colorScheme
     @ObservedObject var vm: ViewModel
     @FocusState var isTextFieldFocused: Bool

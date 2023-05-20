@@ -15,9 +15,9 @@ struct HomeView: View {
                 
                 VStack{
                     HStack{
-                        Text("어떤대화")
+                        Text("어떤대화를")
                             .font(.custom("Arial-BoldMT", size: 35)).foregroundColor(Color(hex: "#7B7B7B")) +
-                        Text("를\n시작할까요?")
+                        Text("\n시작할까요?")
                             .font(.custom("Arial", size: 35)).foregroundColor(Color(hex: "#7B7B7B"))
                         Spacer()
                     }.frame(width:250,height: 90)
@@ -25,20 +25,17 @@ struct HomeView: View {
                 }.padding(.top, 90.0).frame(width:250)
                 
 
-                NavigationLink(destination: SingleInterviewCategory()){
+                NavigationLink(destination: LazyView(SingleInterviewCategory(cf:ContextFlow(dialogType:ContextFlow.DialogType.single)))){
                     MenuButtonView(text:"단일면접")
                 }.padding(.bottom, 40)
-                NavigationLink(destination: SentenceSelectView(title: "직무카테고리를")){
+                NavigationLink(destination: LazyView(SentenceSelectView(title: "직무카테고리를",cf:ContextFlow(dialogType: ContextFlow.DialogType.real)))){
                     MenuButtonView(text:"실전면접")
                 }.padding(.bottom, 40)
-                NavigationLink(destination: ContentView(vm: ViewModel(api: ChatGPTAPI(apiKey: "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")))){
+                NavigationLink(destination: LazyView(ContentView(vm: ViewModel(api: ChatGPTAPI(apiKey: "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"))))){
                     MenuButtonView(text:"영어회화")
                 }.padding(.bottom, 90)
                 
             }
-        }
-        .fullScreenCover(isPresented: $isSingleInterviewCategoryActive) {
-            SingleInterviewCategory()
         }
             
         }

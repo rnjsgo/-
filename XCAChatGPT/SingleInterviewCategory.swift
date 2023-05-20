@@ -9,8 +9,8 @@ import SwiftUI
 let viewController = ViewController()
 
 struct SingleInterviewCategory: View {
-    @State private var isSocial = false
-    @State private var isCreative = false
+    let cf:ContextFlow
+    
     var body: some View {
         NavigationStack{
             VStack{
@@ -29,12 +29,18 @@ struct SingleInterviewCategory: View {
                     //.background(Color.black)
                 
                 
-                NavigationLink(destination:SentenceSelectView(title:"인성질문을")){
+                NavigationLink(destination:LazyView(SentenceSelectView(title:"인성질문을",
+                                                                       sentences: ViewController.shared.questionList(category: "personality"),
+                                                                       cf:cf.setQuestionCategory(questionCategory: ContextFlow.QuestionCategory.personality)))){
                     MenuButton_small_View(text:"인성")
-                }.padding(.bottom, 30)
+                }.simultaneousGesture(TapGesture().onEnded{
+                
+                    })
+                .padding(.bottom, 30)
                     .padding(.top,50)
                 
-                NavigationLink(destination:SentenceSelectView(title:"창의질문을",sentences: viewController.getQuestion())){
+                NavigationLink(destination:LazyView(SentenceSelectView(title:"창의질문을",sentences: ViewController.shared.questionList(category: "creativity"),
+                                                                       cf:cf.setQuestionCategory(questionCategory: ContextFlow.QuestionCategory.creativity)))){
                     MenuButton_small_View(text:"창의성")
                 }.padding(.bottom, 30)
 //                        .simultaneousGesture(TapGesture().onEnded({
@@ -42,11 +48,13 @@ struct SingleInterviewCategory: View {
 //
 //                })).padding(.bottom, 30)
                 
-                NavigationLink(destination:SentenceSelectView(title:"사회질문을")){
+                NavigationLink(destination:LazyView(SentenceSelectView(title:"사회질문을",
+                                                                       sentences: ViewController.shared.questionList(category: "social"),cf:cf.setQuestionCategory(questionCategory: ContextFlow.QuestionCategory.social)))){
                     MenuButton_small_View(text:"사회 / 시사")
                 }.padding(.bottom, 30)
                 
-                NavigationLink(destination:SentenceSelectView(title:"직무적합도질문을")){
+                NavigationLink(destination:LazyView(SentenceSelectView(title:"직무적합도질문을",sentences: ViewController.shared.questionList(category: "suitability"),
+                                                                       cf:cf.setQuestionCategory(questionCategory: ContextFlow.QuestionCategory.job)))){
                     MenuButton_small_View(text:"직무적합도")
                 }.padding(.bottom, 80)
                 
@@ -57,7 +65,7 @@ struct SingleInterviewCategory: View {
     
 struct SingleInterviewCategory_Previews: PreviewProvider {
     static var previews: some View {
-        SingleInterviewCategory()
+        SingleInterviewCategory(cf:ContextFlow())
     }
 }
 

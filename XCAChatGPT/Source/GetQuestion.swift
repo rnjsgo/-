@@ -8,9 +8,15 @@ class GetQuestion {
 //(2)싱글통 객체를 선언해서 앱 어디에서든지 접근가능하도록 한다
     private init() {}
     
-    func getQuestion(completion: @escaping(NetworkResult<Any>) -> Void)
+    func getQuestion(from category:String, completion: @escaping(NetworkResult<Any>) -> Void)
     {
-        let url = APIConstants.getCreativityURL //통신할 API 주소
+        var url=""
+        if(category=="creativity"){url = APIConstants.getCreativityURL}
+        else if(category=="personality"){url = APIConstants.getPersonalityURL}
+        else if(category=="social"){url = APIConstants.getSocialURL}
+        else if(category=="suitability"){url = APIConstants.getSuitabilityURL}
+        
+        
         
         //HTTP Headers : 요청 헤더
         let header : HTTPHeaders = ["Content-Type" : "application/json"]

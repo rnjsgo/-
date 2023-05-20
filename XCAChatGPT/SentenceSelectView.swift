@@ -8,16 +8,26 @@
 import SwiftUI
 
 struct SentenceSelectView: View {
+    
     var title: String
     var sentences=["질문을 불러오는데", "실패했습니다."]
+    let cf:ContextFlow
+    
+    
+    var single_creative=["단일-창의질문입니다.1","단일-창의질문입니다.2","단일-창의질문입니다.3","단일-창의질문입니다.4"]
+    var single_personality=["단일-인성질문입니다.1","단일-인성질문입니다.2","단일-인성질문입니다.3","단일-인성질문입니다.4","단일-인성질문입니다.5"]
+    var single_social=["단일-사회질문입니다.1","단일-사회질문입니다.2","단일-사회질문입니다.3","단일-사회질문입니다.4","단일-사회질문입니다.5","단일-사회질문입니다.6"]
+    var single_job=["단일-직무질문입니다.1","단일-직무질문입니다.2","단일-직무질문입니다.3","단일-직무질문입니다.4","단일-직무질문입니다.5","단일-직무질문입니다.6","단일-직무질문입니다.7"]
+    
+    var real_category=["IT, 통신", "서비스업", "기관, 협회", "교육업", "은행, 금융업", "미디어,디자인", "의료, 제약, 복지", "유통, 무역, 운송", "제조, 화학", "건설"]
+    var coverletterQuestion=["지원동기", "입사 후 포부", "성장배경", "성격 및 장단점", "위기 극복 사례", "주도적으로 업무를 수행한 사례", "사회경험", "직무를 선택한 이유", "본인의 역량"]
     
     var body: some View {
         NavigationStack{
             VStack{
                 VStack{
-                    
-                }.frame(width:400,height: 200)
-                    .padding(.top,100)
+                }.frame(width:400,height: 180)
+                    .padding(.top,10)
                     .background(Color.white)
                     .shadow(radius:5,x:1,y:5)
                     .overlay{
@@ -28,19 +38,72 @@ struct SentenceSelectView: View {
                                 Text("선택해주세요")
                                     .font(.custom("Arial", size: 32)).foregroundColor(Color(hex: "#7B7B7B"))
                                 Spacer()
-                            }.frame(width: 250.0, height: 100.0).padding(.top,100)
+                            }.frame(width: 250.0, height: 100.0).padding(.top,10)
                         }
                     }
                 
                 
                 ScrollView{
                     VStack{
-                        ForEach(sentences,id: \.self){text in
-                            NavigationLink(destination:HomeView()){
-                                SentenceButtonView(text: text)
+                        //단일질문 ->
+                        if(cf.dialogType == ContextFlow.DialogType.single){
+                            
+                            if(cf.questionCategory == ContextFlow.QuestionCategory.creativity){
+                                //단일질문 -> 창의
+                                ForEach(sentences,id: \.self){text in
+                                    NavigationLink(destination:LazyView(ContentView(cf:cf.setSelectedQuestion(question:text), vm: ViewModel(api: ChatGPTAPI(apiKey: "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"))))){
+                                        SentenceButtonView(text: text)
+                                    }
+                                }
+                            }else if(cf.questionCategory == ContextFlow.QuestionCategory.personality){
+                                //단일질문 -> 인성
+                                ForEach(sentences,id: \.self){text in
+                                    NavigationLink(destination:LazyView(ContentView(cf:cf.setSelectedQuestion(question:text), vm: ViewModel(api: ChatGPTAPI(apiKey: "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"))))){
+                                        SentenceButtonView(text: text)
+                                    }
+                                }
+                            }else if(cf.questionCategory == ContextFlow.QuestionCategory.social){
+                                //단일질문 -> 사회
+                                ForEach(sentences,id: \.self){text in
+                                    NavigationLink(destination:LazyView(ContentView(cf:cf.setSelectedQuestion(question:text), vm: ViewModel(api: ChatGPTAPI(apiKey: "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"))))){
+                                        SentenceButtonView(text: text)
+                                    }
+                                }
+                            }else if(cf.questionCategory == ContextFlow.QuestionCategory.job){
+                                //단일질문 -> 직무
+                                ForEach(sentences,id: \.self){text in
+                                    NavigationLink(destination:LazyView(ContentView(cf:cf.setSelectedQuestion(question:text), vm: ViewModel(api: ChatGPTAPI(apiKey: "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"))))){
+                                        SentenceButtonView(text: text)
+                                    }
+                                }
+                            }
+                        }else if(cf.dialogType == ContextFlow.DialogType.real
+                                 && cf.jobCategory == nil){
+                            //실전면접 -> 카테고리
+                            ForEach(real_category,id: \.self){text in
+                                NavigationLink(destination:LazyView(SentenceSelectView(title:"자기소개서 질문을",cf:cf.setJobCategory(jobCategory: text)))){
+                                    SentenceButtonView(text: text)
+                                }
+                            }
+                        }else if(cf.dialogType == ContextFlow.DialogType.real
+                                 && cf.jobCategory != nil){
+                            //실전면접 -> 카테고리 -> 자소서질문 -> 자소서
+                            ForEach(coverletterQuestion,id: \.self){text in
+                                NavigationLink(destination:LazyView(CoverletterView(cf:cf.setCoverLetterQuestion(question: text)))){
+                                    SentenceButtonView(text: text)
+                                }
                             }
                         }
-                    }.frame(width:350, height:550.0).padding(.bottom,100)
+                        else{
+                            //그외
+                            ForEach(sentences,id: \.self){text in
+                                NavigationLink(destination:HomeView()){
+                                    SentenceButtonView(text: text)
+                                }
+                            }
+                        }
+                        
+                    }.frame(width:350).padding(.top,10)
                 }
             }
         }
@@ -49,7 +112,7 @@ struct SentenceSelectView: View {
 
 struct SentenceSelectView_Previews: PreviewProvider {
     static var previews: some View {
-        SentenceSelectView(title:"창의질문")
+        SentenceSelectView(title:"창의질문", cf: ContextFlow(dialogType:ContextFlow.DialogType.real,questionCategory:ContextFlow.QuestionCategory.creativity))
     }
 }
 
