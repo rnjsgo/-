@@ -33,6 +33,7 @@
 		A47F82112A1507A600573B79 /* QuestionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47F820C2A1507A600573B79 /* QuestionModel.swift */; };
 		A47F82122A1507A600573B79 /* GetQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47F820D2A1507A600573B79 /* GetQuestion.swift */; };
 		A47F82132A1507A600573B79 /* NetworkResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47F820E2A1507A600573B79 /* NetworkResult.swift */; };
+		E11588DE2A1896EE002F9651 /* ContextFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11588DD2A1896EE002F9651 /* ContextFlow.swift */; };
 		E150DCA22A021C200075EE4A /* MenuButtonVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E150DCA12A021C200075EE4A /* MenuButtonVC.swift */; };
 		E150DCA42A022AC70075EE4A /* EdgeInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = E150DCA32A022AC70075EE4A /* EdgeInsets.swift */; };
 		E150DCA62A0268E40075EE4A /* TESTVIEW.swift in Sources */ = {isa = PBXBuildFile; fileRef = E150DCA52A0268E40075EE4A /* TESTVIEW.swift */; };
@@ -73,6 +74,7 @@
 		A47F820D2A1507A600573B79 /* GetQuestion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetQuestion.swift; sourceTree = "<group>"; };
 		A47F820E2A1507A600573B79 /* NetworkResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkResult.swift; sourceTree = "<group>"; };
 		CAAE7F5477E4D078FD8516AA /* Pods-XCAChatGPT.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XCAChatGPT.release.xcconfig"; path = "Target Support Files/Pods-XCAChatGPT/Pods-XCAChatGPT.release.xcconfig"; sourceTree = "<group>"; };
+		E11588DD2A1896EE002F9651 /* ContextFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextFlow.swift; sourceTree = "<group>"; };
 		E150DCA12A021C200075EE4A /* MenuButtonVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtonVC.swift; sourceTree = "<group>"; };
 		E150DCA32A022AC70075EE4A /* EdgeInsets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeInsets.swift; sourceTree = "<group>"; };
 		E150DCA52A0268E40075EE4A /* TESTVIEW.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TESTVIEW.swift; sourceTree = "<group>"; };
@@ -107,7 +109,6 @@
 				23353246299F12342A02BC83 /* Pods-XCAChatGPT.debug.xcconfig */,
 				CAAE7F5477E4D078FD8516AA /* Pods-XCAChatGPT.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -139,6 +140,7 @@
 				E150DCA72A026E470075EE4A /* ColorHex.swift */,
 				E1C661A92A035E0A002CCEAF /* SentenceButtonVC.swift */,
 				E1D8EC272A13AE9E004D8E4C /* BackButtonVC.swift */,
+				E11588DD2A1896EE002F9651 /* ContextFlow.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -253,7 +255,7 @@
 			);
 			mainGroup = 8B91BFF7298AD09E0079AF26;
 			packageReferences = (
-				8B612E2829D68CE3008DF5AF /* XCRemoteSwiftPackageReference "GPTEncoder.git" */,
+				8B612E2829D68CE3008DF5AF /* XCRemoteSwiftPackageReference "GPTEncoder" */,
 				8BC0F8CE29F157C800D6B492 /* XCRemoteSwiftPackageReference "swift-markdown" */,
 				8BC0F8D129F157E600D6B492 /* XCRemoteSwiftPackageReference "HighlighterSwift" */,
 			);
@@ -334,6 +336,7 @@
 				E150DCAE2A027FF00075EE4A /* SingleInterviewCategory.swift in Sources */,
 				8B612E2729D68CC9008DF5AF /* TokenizerViewModel.swift in Sources */,
 				A47F82102A1507A600573B79 /* APIConstants.swift in Sources */,
+				E11588DE2A1896EE002F9651 /* ContextFlow.swift in Sources */,
 				E150DCA22A021C200075EE4A /* MenuButtonVC.swift in Sources */,
 				8B82463429B1F49F0069B8F7 /* ChatGPTAPIModels.swift in Sources */,
 				8BC0F8DE29F1589600D6B492 /* CodeBlockView.swift in Sources */,
@@ -562,7 +565,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		8B612E2829D68CE3008DF5AF /* XCRemoteSwiftPackageReference "GPTEncoder.git" */ = {
+		8B612E2829D68CE3008DF5AF /* XCRemoteSwiftPackageReference "GPTEncoder" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/alfianlosari/GPTEncoder.git";
 			requirement = {
@@ -591,7 +594,7 @@
 /* Begin XCSwiftPackageProductDependency section */
 		8B612E2929D68CE3008DF5AF /* GPTEncoder */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 8B612E2829D68CE3008DF5AF /* XCRemoteSwiftPackageReference "GPTEncoder.git" */;
+			package = 8B612E2829D68CE3008DF5AF /* XCRemoteSwiftPackageReference "GPTEncoder" */;
 			productName = GPTEncoder;
 		};
 		8BC0F8CF29F157C800D6B492 /* Markdown */ = {

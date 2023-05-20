@@ -34,11 +34,13 @@ struct SingleInterviewCategory: View {
                 }.padding(.bottom, 30)
                     .padding(.top,50)
                 
-                NavigationLink(destination:SentenceSelectView(title:"창의질문을")){
+                NavigationLink(destination:SentenceSelectView(title:"창의질문을",sentences: viewController.getQuestion())){
                     MenuButton_small_View(text:"창의성")
-                }.simultaneousGesture(TapGesture().onEnded({
-                    viewController.loginButtonTapped()
-                })).padding(.bottom, 30)
+                }.padding(.bottom, 30)
+//                        .simultaneousGesture(TapGesture().onEnded({
+//                    viewController.loginButtonTapped()
+//
+//                })).padding(.bottom, 30)
                 
                 NavigationLink(destination:SentenceSelectView(title:"사회질문을")){
                     MenuButton_small_View(text:"사회 / 시사")

@@ -15,16 +15,17 @@ class ViewController: UIViewController {
     }
 
     // 로그인 버튼을 눌렀을 때 로그인 서버 통신 함수를 호출합니다.
-    @IBAction func loginButtonTapped() {
+    @IBAction func loginButtonTapped(){
         print("getQuestion")
-        getQuestion()
+//        getQuestion()
     }
 }
 
 extension ViewController {
     
     // 서버 통신 코드를 실제로 뷰 컨트롤러에서 호출해서 사용하는 부분입니다.
-    func getQuestion() {
+    func getQuestion() -> [String] {
+        var ret: [String] = []
         // 각각의 텍스트 필드의 있는 값을 받아옵니다.
 //        guard let name = nameTextField.text else { return }
 //        guard let email = emailTextField.text else { return }
@@ -39,6 +40,7 @@ extension ViewController {
                 guard let data = data as? QuestionResponse else { return }
                 for questionData in data.question {
                        print(questionData.question)
+                    ret.append(questionData.question)
                    }
             case .requestErr(let err):
                 print(err)
@@ -50,6 +52,7 @@ extension ViewController {
                 print("networkFail")
             }
         }
+        return ret
     }
     
     // 알림창을 띄우는 함수입니다.
