@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SentenceSelectView: View {
     var title: String
+
     
     var body: some View {
         VStack{
