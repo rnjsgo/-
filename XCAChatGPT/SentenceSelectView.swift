@@ -43,7 +43,7 @@ struct SentenceSelectView: View {
                         //단일질문 ->
                         if(cf.dialogType == ContextFlow.DialogType.single){
                             ForEach(sentences,id: \.self){text in
-                                NavigationLink(destination:LazyView(ContentView(cf:cf.setSelectedQuestion(question:text), vm: ViewModel(api: ChatGPTAPI(apiKey: "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"))))){
+                                NavigationLink(destination:LazyView(ContentView(cf:cf.setSelectedQuestion(question:text), vm: ViewModel(api: ChatGPTAPI(apiKey: "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"))))){
                                     SentenceButtonView(text: text)
                                 }
                             }
