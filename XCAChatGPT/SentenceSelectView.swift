@@ -10,14 +10,9 @@ import SwiftUI
 struct SentenceSelectView: View {
     
     var title: String
-    var sentences=["질문을 불러오는데", "실패했습니다."]
+    @State private var sentences=["질문을 불러오는데", "실패했습니다."]
     let cf:ContextFlow
     
-    
-    var single_creative=["단일-창의질문입니다.1","단일-창의질문입니다.2","단일-창의질문입니다.3","단일-창의질문입니다.4"]
-    var single_personality=["단일-인성질문입니다.1","단일-인성질문입니다.2","단일-인성질문입니다.3","단일-인성질문입니다.4","단일-인성질문입니다.5"]
-    var single_social=["단일-사회질문입니다.1","단일-사회질문입니다.2","단일-사회질문입니다.3","단일-사회질문입니다.4","단일-사회질문입니다.5","단일-사회질문입니다.6"]
-    var single_job=["단일-직무질문입니다.1","단일-직무질문입니다.2","단일-직무질문입니다.3","단일-직무질문입니다.4","단일-직무질문입니다.5","단일-직무질문입니다.6","단일-직무질문입니다.7"]
     
     var real_category=["IT, 통신", "서비스업", "기관, 협회", "교육업", "은행, 금융업", "미디어,디자인", "의료, 제약, 복지", "유통, 무역, 운송", "제조, 화학", "건설"]
     var coverletterQuestion=["지원동기", "입사 후 포부", "성장배경", "성격 및 장단점", "위기 극복 사례", "주도적으로 업무를 수행한 사례", "사회경험", "직무를 선택한 이유", "본인의 역량"]
@@ -47,34 +42,9 @@ struct SentenceSelectView: View {
                     VStack{
                         //단일질문 ->
                         if(cf.dialogType == ContextFlow.DialogType.single){
-                            
-                            if(cf.questionCategory == ContextFlow.QuestionCategory.creativity){
-                                //단일질문 -> 창의
-                                ForEach(sentences,id: \.self){text in
-                                    NavigationLink(destination:LazyView(ContentView(cf:cf.setSelectedQuestion(question:text), vm: ViewModel(api: ChatGPTAPI(apiKey: "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"))))){
-                                        SentenceButtonView(text: text)
-                                    }
-                                }
-                            }else if(cf.questionCategory == ContextFlow.QuestionCategory.personality){
-                                //단일질문 -> 인성
-                                ForEach(sentences,id: \.self){text in
-                                    NavigationLink(destination:LazyView(ContentView(cf:cf.setSelectedQuestion(question:text), vm: ViewModel(api: ChatGPTAPI(apiKey: "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"))))){
-                                        SentenceButtonView(text: text)
-                                    }
-                                }
-                            }else if(cf.questionCategory == ContextFlow.QuestionCategory.social){
-                                //단일질문 -> 사회
-                                ForEach(sentences,id: \.self){text in
-                                    NavigationLink(destination:LazyView(ContentView(cf:cf.setSelectedQuestion(question:text), vm: ViewModel(api: ChatGPTAPI(apiKey: "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"))))){
-                                        SentenceButtonView(text: text)
-                                    }
-                                }
-                            }else if(cf.questionCategory == ContextFlow.QuestionCategory.job){
-                                //단일질문 -> 직무
-                                ForEach(sentences,id: \.self){text in
-                                    NavigationLink(destination:LazyView(ContentView(cf:cf.setSelectedQuestion(question:text), vm: ViewModel(api: ChatGPTAPI(apiKey: "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"))))){
-                                        SentenceButtonView(text: text)
-                                    }
+                            ForEach(sentences,id: \.self){text in
+                                NavigationLink(destination:LazyView(ContentView(cf:cf.setSelectedQuestion(question:text), vm: ViewModel(api: ChatGPTAPI(apiKey: "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"))))){
+                                    SentenceButtonView(text: text)
                                 }
                             }
                         }else if(cf.dialogType == ContextFlow.DialogType.real
@@ -103,9 +73,26 @@ struct SentenceSelectView: View {
                             }
                         }
                         
+                    }
                     }.frame(width:350).padding(.top,10)
+                
+                }
+            }.task {
+                if(cf.questionCategory == ContextFlow.QuestionCategory.creativity){
+                    await questionList(category:"creativity")
+                }else if(cf.questionCategory == ContextFlow.QuestionCategory.personality){
+                    await questionList(category:"personality")
+                }else if(cf.questionCategory == ContextFlow.QuestionCategory.social){
+                    await questionList(category:"social")
+                }else if(cf.questionCategory == ContextFlow.QuestionCategory.job){
+                    await questionList(category:"suitability")
                 }
             }
+    }
+    
+    func questionList(category:String) async{
+        await ViewController.shared.getQuestion(from:category){ret in
+            self.sentences=ret
         }
     }
 }

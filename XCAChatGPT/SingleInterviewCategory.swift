@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-let viewController = ViewController()
 
 struct SingleInterviewCategory: View {
     let cf:ContextFlow
@@ -30,7 +29,7 @@ struct SingleInterviewCategory: View {
                 
                 
                 NavigationLink(destination:LazyView(SentenceSelectView(title:"인성질문을",
-                                                                       sentences: ViewController.shared.questionList(category: "personality"),
+                                                                       
                                                                        cf:cf.setQuestionCategory(questionCategory: ContextFlow.QuestionCategory.personality)))){
                     MenuButton_small_View(text:"인성")
                 }.simultaneousGesture(TapGesture().onEnded{
@@ -39,7 +38,7 @@ struct SingleInterviewCategory: View {
                 .padding(.bottom, 30)
                     .padding(.top,50)
                 
-                NavigationLink(destination:LazyView(SentenceSelectView(title:"창의질문을",sentences: ViewController.shared.questionList(category: "creativity"),
+                NavigationLink(destination:LazyView(SentenceSelectView(title:"창의질문을",
                                                                        cf:cf.setQuestionCategory(questionCategory: ContextFlow.QuestionCategory.creativity)))){
                     MenuButton_small_View(text:"창의성")
                 }.padding(.bottom, 30)
@@ -49,11 +48,11 @@ struct SingleInterviewCategory: View {
 //                })).padding(.bottom, 30)
                 
                 NavigationLink(destination:LazyView(SentenceSelectView(title:"사회질문을",
-                                                                       sentences: ViewController.shared.questionList(category: "social"),cf:cf.setQuestionCategory(questionCategory: ContextFlow.QuestionCategory.social)))){
+                                                                       cf:cf.setQuestionCategory(questionCategory: ContextFlow.QuestionCategory.social)))){
                     MenuButton_small_View(text:"사회 / 시사")
                 }.padding(.bottom, 30)
                 
-                NavigationLink(destination:LazyView(SentenceSelectView(title:"직무적합도질문을",sentences: ViewController.shared.questionList(category: "suitability"),
+                NavigationLink(destination:LazyView(SentenceSelectView(title:"직무적합도질문을",
                                                                        cf:cf.setQuestionCategory(questionCategory: ContextFlow.QuestionCategory.job)))){
                     MenuButton_small_View(text:"직무적합도")
                 }.padding(.bottom, 80)

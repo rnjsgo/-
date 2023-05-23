@@ -20,8 +20,8 @@ class ViewController {
     
     
     var question: [String] = []
-    func questionList(category:String)->[String]{
-        getQuestion(from:category){ret in
+    func questionList(category:String) async->[String]{
+        await getQuestion(from:category){ret in
             self.question=ret
         }
         return question
@@ -59,7 +59,7 @@ class ViewController {
     //        return ret
     //    }
     //
-    func getQuestion(from category:String,completion: @escaping ([String]) -> Void) {
+    func getQuestion(from category:String,completion: @escaping ([String]) -> Void)async {
         var ret: [String] = []
         
         GetQuestion.shared.getQuestion(from:category) { response in
