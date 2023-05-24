@@ -28,12 +28,12 @@ struct MessageRowView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            messageRow(rowType: message.send, image: message.sendImage, bgColor: colorScheme == .light ? .white : Color(red: 52/255, green: 53/255, blue: 65/255, opacity: 0.5))
+            if (!message.isIgnore){
+                messageRow(rowType: message.send, image: message.sendImage, bgColor: colorScheme == .light ? .white : Color(red: 52/255, green: 53/255, blue: 65/255, opacity: 0.5))
+            }
             
-            if(!message.isIgnore){
-                if let response = message.response {
-                    messageRow(rowType: response, image: message.responseImage, bgColor: colorScheme == .light ? .white : Color(red: 52/255, green: 53/255, blue: 65/255, opacity: 1), responseError: message.responseError, showDotLoading: message.isInteractingWithChatGPT)
-                }
+            if let response = message.response {
+                messageRow(rowType: response, image: message.responseImage, bgColor: colorScheme == .light ? .white : Color(red: 52/255, green: 53/255, blue: 65/255, opacity: 1), responseError: message.responseError, showDotLoading: message.isInteractingWithChatGPT)
             }
         }
     }

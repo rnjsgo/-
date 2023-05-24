@@ -26,9 +26,11 @@ struct ContentView: View {
                 ScrollView {
                     LazyVStack(spacing: 0) {
                         ForEach(vm.messages) { message in
-                            MessageRowView(message: message) { message in
-                                Task { @MainActor in
-                                    await vm.retry(message: message)
+                            if (!message.isIgnore){
+                                MessageRowView(message: message) { message in
+                                    Task { @MainActor in
+                                        await vm.retry(message: message)
+                                    }
                                 }
                             }
                         }

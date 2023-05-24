@@ -32,22 +32,22 @@ class ViewModel: ObservableObject {
     }
     
     @MainActor
-    func promptSend() async {
+    func promptSend(ignore:Bool=false) async {
         let text = inputMessage
         inputMessage = ""
         #if os(iOS)
-        await sendAttributed(text: text)
+        await sendAttributed(text: text,ignore:ignore)
         #else
         await send(text: text)
         #endif
     }
     
     @MainActor
-    func sendTapped() async {
+    func sendTapped(ignore:Bool=false) async {
         let text = inputMessage
         inputMessage = ""
         #if os(iOS)
-        await sendAttributed(text: text)
+        await sendAttributed(text: text,ignore:ignore)
         #else
         await send(text: text)
         #endif
@@ -69,7 +69,7 @@ class ViewModel: ObservableObject {
         }
         self.messages.remove(at: index)
         #if os(iOS)
-        await sendAttributed(text: message.sendText)
+        await sendAttributed(text: message.sendText,ignore:message.isIgnore)
         #else
         await send(text: message.sendText)
         #endif
@@ -77,7 +77,7 @@ class ViewModel: ObservableObject {
     
     #if os(iOS)
     @MainActor
-    private func sendAttributed(text: String) async {
+    private func sendAttributed(text: String, ignore:Bool=false) async {
         isInteractingWithChatGPT = true
         
         let parsingTask = ResponseParsingTask()
@@ -86,11 +86,11 @@ class ViewModel: ObservableObject {
         var streamText = ""
         var messageRow = MessageRow(
             isInteractingWithChatGPT: true,
-            sendImage: "profile",
+            isIgnore: ignore, sendImage: "profile",
             send: .attributed(attributedSend),
             responseImage: "openai",
             responseError: nil)
-        
+
         self.messages.append(messageRow)
         
         let parserThresholdTextCount = 64
@@ -125,8 +125,9 @@ class ViewModel: ObservableObject {
                         ParserResult(attributedString: AttributedString(stringLiteral: streamText), isCodeBlock: false, codeBlockLanguage: nil)
                     ]))
                 }
-
+                
                 self.messages[self.messages.count - 1] = messageRow
+                
             }
         } catch {
             messageRow.responseError = error.localizedDescription
@@ -140,6 +141,7 @@ class ViewModel: ObservableObject {
         
         messageRow.isInteractingWithChatGPT = false
         self.messages[self.messages.count - 1] = messageRow
+        
         isInteractingWithChatGPT = false
         speakLastResponse()
     }

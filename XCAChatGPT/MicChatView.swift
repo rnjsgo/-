@@ -19,7 +19,7 @@ struct MicChatView: View {
     @State var session : AVAudioSession!
     @State var recorder: AVAudioRecorder!
     @State var alert=false
-    
+    @State var recFileString:URL!
     var body: some View {
         NavigationStack{
             chatListView
@@ -85,7 +85,7 @@ struct MicChatView: View {
                             //버튼을 눌렀을때 이미 레코딩중이다 -> 레코딩을 중지하고 저장
                             self.recorder.stop()
                             self.isRecording.toggle()
-                            
+                            //let rec = Data(from: self.recFileString)
                             return
                         }
                         let fileManager = FileManager.default
@@ -105,6 +105,7 @@ struct MicChatView: View {
                         self.recorder = try AVAudioRecorder(url:fileName, settings:settings)
                         self.recorder.record()
                         self.isRecording.toggle()
+                        self.recFileString = fileName
                     }
                    catch{
                        print(error.localizedDescription)
@@ -159,7 +160,7 @@ struct MicChatView: View {
 struct MicChatView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            MicChatView(vm: ViewModel(api: ChatGPTAPI(apiKey: "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")))
+            MicChatView(vm: ViewModel(api: ChatGPTAPI(apiKey: "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")))
         }
     }
 }

@@ -50,8 +50,7 @@ struct SingleContentView: View {
                         isTextFieldFocused = false
                         scrollToBottom(proxy: proxy)
                         vm.inputMessage="너는 지금부터 면접관이고 나는 면접 대상자야.가벼운 인사와 함께 이 다음 문장을 질문으로 해줘 "+(cf?.selectedQuestion ?? "질문을 찾을수 없습니다")
-//                        vm.messages[0].isIgnore=true
-                        await vm.promptSend()
+                        await vm.promptSend(ignore:true)
                         hasPrompt=true
                     }
                 }
