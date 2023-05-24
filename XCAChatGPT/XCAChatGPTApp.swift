@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct XCAChatGPTApp: App {
     
-    @StateObject var vm = ViewModel(api: ChatGPTAPI(apiKey: "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"))
+    @StateObject var vm = ViewModel(api: ChatGPTAPI(apiKey: "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"))
     @State var isShowingTokenizer = false
     
     var body: some Scene {
@@ -39,6 +39,7 @@ struct XCAChatGPTApp: App {
 //        }
         WindowGroup{
             HomeView()
+            //MicChatView(vm: vm)
         }
     }
 }
