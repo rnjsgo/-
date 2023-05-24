@@ -30,8 +30,10 @@ struct MessageRowView: View {
         VStack(spacing: 0) {
             messageRow(rowType: message.send, image: message.sendImage, bgColor: colorScheme == .light ? .white : Color(red: 52/255, green: 53/255, blue: 65/255, opacity: 0.5))
             
-            if let response = message.response {
-                messageRow(rowType: response, image: message.responseImage, bgColor: colorScheme == .light ? .white : Color(red: 52/255, green: 53/255, blue: 65/255, opacity: 1), responseError: message.responseError, showDotLoading: message.isInteractingWithChatGPT)
+            if(!message.isIgnore){
+                if let response = message.response {
+                    messageRow(rowType: response, image: message.responseImage, bgColor: colorScheme == .light ? .white : Color(red: 52/255, green: 53/255, blue: 65/255, opacity: 1), responseError: message.responseError, showDotLoading: message.isInteractingWithChatGPT)
+                }
             }
         }
     }
@@ -47,6 +49,7 @@ struct MessageRowView: View {
         .background(bgColor)
         #else
         VStack{
+            
             HStack(alignment: .top, spacing: 24) {
                 messageRowContent(rowType: rowType, image: image, responseError: responseError, showDotLoading: showDotLoading)
             }
@@ -68,6 +71,7 @@ struct MessageRowView: View {
     
     @ViewBuilder
     func messageRowContent(rowType: MessageRowType, image: String, responseError: String? = nil, showDotLoading: Bool = false) -> some View {
+        
         if image.hasPrefix("http"), let url = URL(string: image) {
             AsyncImage(url: url) { image in
                 image

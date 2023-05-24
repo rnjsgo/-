@@ -24,6 +24,7 @@ enum MessageRowType {
             return string
         }
     }
+    
 }
 
 struct MessageRow: Identifiable {
@@ -31,6 +32,8 @@ struct MessageRow: Identifiable {
     let id = UUID()
     
     var isInteractingWithChatGPT: Bool
+    
+    var isIgnore:Bool = false
     
     let sendImage: String
     let send: MessageRowType

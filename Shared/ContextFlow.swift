@@ -23,7 +23,7 @@ struct ContextFlow{
     }
     var questionCategory:QuestionCategory?
     
-    var selectedQuestion:String?
+    var selectedQuestion:String?=""
     
     var jobCategory:String?
     

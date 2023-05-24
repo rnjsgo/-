@@ -32,6 +32,17 @@ class ViewModel: ObservableObject {
     }
     
     @MainActor
+    func promptSend() async {
+        let text = inputMessage
+        inputMessage = ""
+        #if os(iOS)
+        await sendAttributed(text: text)
+        #else
+        await send(text: text)
+        #endif
+    }
+    
+    @MainActor
     func sendTapped() async {
         let text = inputMessage
         inputMessage = ""
