@@ -85,6 +85,14 @@ struct MicChatView: View {
                             //버튼을 눌렀을때 이미 레코딩중이다 -> 레코딩을 중지하고 저장
                             self.recorder.stop()
                             self.isRecording.toggle()
+                            do{
+                                let rec = try Data(contentsOf:self.recFileString)
+                                STT.shared.getText(data: rec){result in
+                                    print(result)
+                                }
+                            }catch{
+                                print(error.localizedDescription)
+                            }
                             //let rec = Data(from: self.recFileString)
                             return
                         }
@@ -97,9 +105,9 @@ struct MicChatView: View {
                         let fileName = documentURL.appendingPathComponent(dateFormatter.string(from:Date())+".m4a")
                         let settings=[
                             AVFormatIDKey : Int(kAudioFormatMPEG4AAC),
-                            AVSampleRateKey: 12000,
+                            AVSampleRateKey: 44100,
                             AVNumberOfChannelsKey: 1,
-                            AVEncoderAudioQualityKey : AVAudioQuality.high.rawValue
+                            AVEncoderAudioQualityKey : AVAudioQuality.max.rawValue
                         ]
                         
                         self.recorder = try AVAudioRecorder(url:fileName, settings:settings)

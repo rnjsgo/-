@@ -29,6 +29,7 @@
 		8BC0F8DC29F1587600D6B492 /* ResponseParsingTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC0F8DB29F1587600D6B492 /* ResponseParsingTask.swift */; };
 		8BC0F8DE29F1589600D6B492 /* CodeBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC0F8DD29F1589600D6B492 /* CodeBlockView.swift */; };
 		A40140C22A1DD4A1009CD311 /* SingleContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A40140C12A1DD4A1009CD311 /* SingleContentView.swift */; };
+		A40140C42A1DF7E3009CD311 /* STT.swift in Sources */ = {isa = PBXBuildFile; fileRef = A40140C32A1DF7E3009CD311 /* STT.swift */; };
 		A47F820F2A1507A600573B79 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47F820A2A1507A600573B79 /* ViewController.swift */; };
 		A47F82102A1507A600573B79 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47F820B2A1507A600573B79 /* APIConstants.swift */; };
 		A47F82112A1507A600573B79 /* QuestionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47F820C2A1507A600573B79 /* QuestionModel.swift */; };
@@ -71,6 +72,7 @@
 		8BC0F8DB29F1587600D6B492 /* ResponseParsingTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseParsingTask.swift; sourceTree = "<group>"; };
 		8BC0F8DD29F1589600D6B492 /* CodeBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeBlockView.swift; sourceTree = "<group>"; };
 		A40140C12A1DD4A1009CD311 /* SingleContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleContentView.swift; sourceTree = "<group>"; };
+		A40140C32A1DF7E3009CD311 /* STT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STT.swift; sourceTree = "<group>"; };
 		A47F820A2A1507A600573B79 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A47F820B2A1507A600573B79 /* APIConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		A47F820C2A1507A600573B79 /* QuestionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionModel.swift; sourceTree = "<group>"; };
@@ -207,6 +209,7 @@
 				A47F820C2A1507A600573B79 /* QuestionModel.swift */,
 				A47F820D2A1507A600573B79 /* GetQuestion.swift */,
 				A47F820E2A1507A600573B79 /* NetworkResult.swift */,
+				A40140C32A1DF7E3009CD311 /* STT.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -336,6 +339,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B91C012298AD0CE0079AF26 /* ChatGPTAPI.swift in Sources */,
+				A40140C42A1DF7E3009CD311 /* STT.swift in Sources */,
 				8B91C006298AD09E0079AF26 /* ContentView.swift in Sources */,
 				E1C661AA2A035E0A002CCEAF /* SentenceButtonVC.swift in Sources */,
 				E1C661AC2A0363EA002CCEAF /* SentenceSelectView.swift in Sources */,
@@ -498,7 +502,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"XCAChatGPT/Preview Content\"";
-				DEVELOPMENT_TEAM = 64HU7X93SP;
+				DEVELOPMENT_TEAM = X6Q8XZ4STT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = XCAChatGPT/Info.plist;
@@ -515,7 +519,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.max8276.jnuCap;
+				PRODUCT_BUNDLE_IDENTIFIER = com.max8276.jnuCapgf;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -532,7 +536,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"XCAChatGPT/Preview Content\"";
-				DEVELOPMENT_TEAM = 64HU7X93SP;
+				DEVELOPMENT_TEAM = X6Q8XZ4STT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = XCAChatGPT/Info.plist;
@@ -549,7 +553,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.max8276.jnuCap;
+				PRODUCT_BUNDLE_IDENTIFIER = com.max8276.jnuCapgf;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

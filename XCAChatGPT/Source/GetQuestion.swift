@@ -35,7 +35,7 @@ class GetQuestion {
 //                                    parameters: body,
                                     encoding: JSONEncoding.default,
                                     headers: header)
-                                    
+        
         //request 시작 ,responseData를 호출하면서 데이터 통신 시작
         dataRequest.responseData{
             response in //데이터 통신의 결과가 response에 담기게 된다
