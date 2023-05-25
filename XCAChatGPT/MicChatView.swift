@@ -18,6 +18,7 @@ struct MicChatView: View {
     //recording instance
     @State var session : AVAudioSession!
     @State var recorder: AVAudioRecorder!
+    @State var player: AVAudioPlayer!
     @State var alert=false
     @State var recFileString:URL!
     var body: some View {
@@ -47,7 +48,29 @@ struct MicChatView: View {
                 Spacer()
 #endif
             }
-            .onChange(of: vm.messages.last?.responseText) { _ in  scrollToBottom(proxy: proxy)
+            .onChange(of: vm.messages.last?.responseText) { _ in
+                scrollToBottom(proxy: proxy)
+                }
+            .onChange(of: vm.isInteractingWithChatGPT){_ in
+                let str:String = vm.messages.last?.responseText ?? "없어용"
+                Task{
+                    if(!vm.isInteractingWithChatGPT){
+                        await TTS.shared.getSpeech(from : str){result in
+                            do{
+                                var data = try Data(contentsOf: result)
+                                var playing = false
+                                if(!playing) {
+                                    try self.player = AVAudioPlayer(data:data)
+                                    self.player.volume = 100
+                                    self.player.play()
+                                    playing = true
+                                }
+                            }catch{
+                                print(error.localizedDescription)
+                            }
+                        }
+                    }
+                }
             }
         }
         .background(colorScheme == .light ? .white : Color(red: 52/255, green: 53/255, blue: 65/255, opacity: 0.5))
@@ -89,10 +112,16 @@ struct MicChatView: View {
                                 let rec = try Data(contentsOf:self.recFileString)
                                 STT.shared.getText(data: rec){result in
                                     print(result)
+                                    vm.inputMessage = result as! String
+                                    Task{@MainActor in
+                                        scrollToBottom(proxy: proxy)
+                                        await vm.sendTapped()
+                                    }
                                 }
                             }catch{
                                 print(error.localizedDescription)
                             }
+                            
                             //let rec = Data(from: self.recFileString)
                             return
                         }
@@ -102,7 +131,7 @@ struct MicChatView: View {
                         
                         dateFormatter.dateFormat="YYYYMMDDHHMMSS"
                         //저장될 파일 이름
-                        let fileName = documentURL.appendingPathComponent(dateFormatter.string(from:Date())+".m4a")
+                        let fileName = documentURL.appendingPathComponent(dateFormatter.string(from:Date())+"Q.m4a")
                         let settings=[
                             AVFormatIDKey : Int(kAudioFormatMPEG4AAC),
                             AVSampleRateKey: 44100,
@@ -144,6 +173,7 @@ struct MicChatView: View {
             Alert(title:Text("오류"), message: Text("접근권한을 확인해주세요"))
         })
         .onAppear{
+            print("-----------------------------면접시작-----------------------------")
             do{
                 self.session=AVAudioSession.sharedInstance()
                 try self.session.setCategory(.playAndRecord)
@@ -156,6 +186,13 @@ struct MicChatView: View {
             }catch{
                 print(error.localizedDescription)
             }
+            Task { @MainActor in
+                scrollToBottom(proxy: proxy)
+                vm.inputMessage="너는 지금부터 면접관이고 나는 면접 대상자야. 가벼운 인사와 함께 이 다음 문장을 질문으로 해줘 "+(cf?.selectedQuestion ?? "질문을 찾을수 없습니다")
+                await vm.promptSend(ignore:true)
+            }
+            
+                
         }
 }
     

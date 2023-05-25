@@ -44,8 +44,8 @@ class ChatGPTAPI: @unchecked Sendable {
     }
     
 
-    init(apiKey: String="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", model: String = "gpt-3.5-turbo", systemPrompt: String = "You are a helpful teacher or friend", temperature: Double = 0.5) {
-        self.apiKey = "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"
+    init(apiKey: String="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", model: String = "gpt-3.5-turbo", systemPrompt: String = "Act like job interviewer or friend", temperature: Double = 0.5) {
+        self.apiKey = "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"
         self.model = model
         self.systemMessage = .init(role: "system", content: systemPrompt)
         self.temperature = temperature
@@ -70,6 +70,10 @@ class ChatGPTAPI: @unchecked Sendable {
     private func appendToHistoryList(userText: String, responseText: String) {
         self.historyList.append(.init(role: "user", content: userText))
         self.historyList.append(.init(role: "assistant", content: responseText))
+    }
+    
+    public func appendPromptToHistoryList(text:String){
+        self.historyList.append(.init(role:"system",content: text))
     }
     
     func sendMessageStream(text: String) async throws -> AsyncThrowingStream<String, Error> {

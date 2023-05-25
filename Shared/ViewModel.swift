@@ -12,9 +12,12 @@ import AVKit
 class ViewModel: ObservableObject {
     
     @Published var isInteractingWithChatGPT = false
+    @Published var isInterviewOver = false
     @Published var messages: [MessageRow] = []
     @Published var inputMessage: String = ""
     @State var pathStack = NavigationPath()
+    @Published private var chatCount:Int
+    @Published private var realInterviewPrompts:[String] = ["방금 답변에 대해서 추가적으로 단 하나의 질문을 생성하고 그 질문으로 질문해줘", "이번엔 면접 상황에 맞는 적절한 다른 주제의 새로운 질문을 생성하고 면접자에게 그 질문으로 질문해줘"]
     
     #if !os(watchOS)
     private var synthesizer: AVSpeechSynthesizer?
@@ -24,11 +27,13 @@ class ViewModel: ObservableObject {
     
     init(api: ChatGPTAPI, enableSpeech: Bool = false) {
         self.api = api
+        
         #if !os(watchOS)
         if enableSpeech {
             synthesizer = .init()
         }
         #endif
+        self.chatCount = 1
     }
     
     @MainActor
@@ -46,6 +51,24 @@ class ViewModel: ObservableObject {
     func sendTapped(ignore:Bool=false) async {
         let text = inputMessage
         inputMessage = ""
+        if(!isInterviewOver){
+            print("chatcount")
+            print(self.chatCount)
+            print("isover")
+            print(isInterviewOver)
+            if (self.chatCount % 3 == 0){
+                self.api.appendPromptToHistoryList(text: realInterviewPrompts[1])
+                print(realInterviewPrompts[1])
+            }else{
+                self.api.appendPromptToHistoryList(text: realInterviewPrompts[0])
+                print(realInterviewPrompts[0])
+            }
+            if(self.chatCount == 11){
+                isInterviewOver = true
+            }
+            self.chatCount = self.chatCount + 1
+        }
+        
         #if os(iOS)
         await sendAttributed(text: text,ignore:ignore)
         #else

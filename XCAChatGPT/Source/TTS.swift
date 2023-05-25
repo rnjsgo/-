@@ -8,7 +8,7 @@ class TTS {
 //(2)싱글통 객체를 선언해서 앱 어디에서든지 접근가능하도록 한다
     private init() {}
     
-    func getSpeech(from text:String, completion: @escaping(NetworkResult<Any>) -> Void)async
+    func getSpeech(from text:String, completion: @escaping(URL) -> Void)async
     {
         var url=APIConstants.getTTSURL
         
@@ -35,10 +35,15 @@ class TTS {
             let data=response.data
             let fileManager = FileManager.default
 //            let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-            let destinationURL = URL(fileURLWithPath:"/Users/sun/Desktop/test.mp3")
-            print(destinationURL)
-            do{try data?.write(to: destinationURL)}
+            let documentURL = fileManager.urls(for:.documentDirectory, in:.userDomainMask).first!
+            let dateFormatter = DateFormatter()
+            
+            dateFormatter.dateFormat="YYYYMMDDHHMMSS"
+            //저장될 파일 이름
+            let fileName = documentURL.appendingPathComponent(dateFormatter.string(from:Date())+"A.mp3")
+            do{try data?.write(to: fileName)}
             catch{print("실패~")}
+            completion(fileName)
         }
     }
    

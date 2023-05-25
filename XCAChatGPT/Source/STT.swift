@@ -18,8 +18,8 @@ class STT {
                     multipartFormData.append(data, withName: "file", fileName: "file.m4a", mimeType: "audio/mpeg")
         }, to: url, method: .post, headers: header).response{ response in
             let responseString = String(data: response.data!, encoding: .utf8)
-                print("\(responseString!)")
-//                completion(responseString ?? "없는데용?!@!@")
+                //print("\(responseString!)")
+                completion(responseString ?? "없는데용?!@!@")
                 }
             }
         
