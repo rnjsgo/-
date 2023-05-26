@@ -12,7 +12,7 @@ class ChatGPTAPI: @unchecked Sendable {
     private let systemMessage: Message
     private let temperature: Double
     private let model: String
-    
+    private var prompt: String=""
     private let apiKey: String
     private var historyList = [Message]()
     private let urlSession = URLSession.shared
@@ -44,20 +44,21 @@ class ChatGPTAPI: @unchecked Sendable {
     }
     
 
-    init(apiKey: String="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", model: String = "gpt-3.5-turbo", systemPrompt: String = "Act like job interviewer or friend", temperature: Double = 0.5) {
-        self.apiKey = "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"
+    init(apiKey: String="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", model: String = "gpt-3.5-turbo", systemPrompt: String = "Act like job interviewer", temperature: Double = 0.5) {
+        self.apiKey = "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"
         self.model = model
         self.systemMessage = .init(role: "system", content: systemPrompt)
         self.temperature = temperature
     }
     
     private func generateMessages(from text: String) -> [Message] {
-        var messages = [systemMessage] + historyList + [Message(role: "user", content: text)]
+        var messages = [systemMessage]+historyList + [Message(role: "user", content: text)]+[Message(role:"system", content:prompt)]
         
         if messages.contentCount > (4000 * 4) {
             _ = historyList.removeFirst()
             messages = generateMessages(from: text)
         }
+        print(messages)
         return messages
     }
     
@@ -75,11 +76,13 @@ class ChatGPTAPI: @unchecked Sendable {
     public func appendPromptToHistoryList(text:String){
         self.historyList.append(.init(role:"system",content: text))
     }
+    public func changePrompt(text:String){
+        self.prompt=text
+    }
     
     func sendMessageStream(text: String) async throws -> AsyncThrowingStream<String, Error> {
         var urlRequest = self.urlRequest
         urlRequest.httpBody = try jsonBody(text: text)
-        
         let (result, response) = try await urlSession.bytes(for: urlRequest)
         
         guard let httpResponse = response as? HTTPURLResponse else {
@@ -124,6 +127,7 @@ class ChatGPTAPI: @unchecked Sendable {
 
     func sendMessage(_ text: String) async throws -> String {
         var urlRequest = self.urlRequest
+        
         urlRequest.httpBody = try jsonBody(text: text, stream: false)
         
         let (data, response) = try await urlSession.data(for: urlRequest)

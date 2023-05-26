@@ -10,7 +10,7 @@ import SwiftUI
 struct SentenceSelectView: View {
     
     var title: String
-    @State private var sentences=["질문을 불러오는데", "실패했습니다."]
+    @State private var sentences=[""]
     let cf:ContextFlow
     
     

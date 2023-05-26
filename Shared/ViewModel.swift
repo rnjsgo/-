@@ -17,7 +17,7 @@ class ViewModel: ObservableObject {
     @Published var inputMessage: String = ""
     @State var pathStack = NavigationPath()
     @Published private var chatCount:Int
-    @Published private var realInterviewPrompts:[String] = ["방금 답변에 대해서 추가적으로 단 하나의 질문을 생성하고 그 질문으로 질문해줘", "이번엔 면접 상황에 맞는 적절한 다른 주제의 새로운 질문을 생성하고 면접자에게 그 질문으로 질문해줘"]
+    @Published private var realInterviewPrompts:[String] = ["방금 답변에 대해서 추가적으로 단 하나의 질문을 생성하고 그 질문으로 질문해줘", "이번엔 면접 상황에 맞는 적절한 다른 주제의 새로운 질문을 생성하고 면접자에게 그 질문으로 질문해줘","이번에는 질문을 하지 말고, 지금까지 했던 답변에 대해 피드백 해줘"]
     
     #if !os(watchOS)
     private var synthesizer: AVSpeechSynthesizer?
@@ -48,26 +48,32 @@ class ViewModel: ObservableObject {
     }
     
     @MainActor
-    func sendTapped(ignore:Bool=false) async {
+    func sendTapped(ignore:Bool=false, questionCount:Int=11) async {
         let text = inputMessage
         inputMessage = ""
+//        if(questionCount==1){
+//            isInterviewOver=true
+//            self.api.changePrompt(text: realInterviewPrompts[2])
+//        }
         if(!isInterviewOver){
+            if (self.chatCount % 3 == 0){
+                self.api.changePrompt(text: realInterviewPrompts[1])
+                print(realInterviewPrompts[1])
+            }else{
+                self.api.changePrompt(text: realInterviewPrompts[0])
+                print(realInterviewPrompts[0])
+            }
+            self.chatCount = self.chatCount + 1
+
+            if(self.chatCount == questionCount){
+                isInterviewOver = true
+            }
             print("chatcount")
             print(self.chatCount)
             print("isover")
             print(isInterviewOver)
-            if (self.chatCount % 3 == 0){
-                self.api.appendPromptToHistoryList(text: realInterviewPrompts[1])
-                print(realInterviewPrompts[1])
-            }else{
-                self.api.appendPromptToHistoryList(text: realInterviewPrompts[0])
-                print(realInterviewPrompts[0])
-            }
-            if(self.chatCount == 11){
-                isInterviewOver = true
-            }
-            self.chatCount = self.chatCount + 1
         }
+        
         
         #if os(iOS)
         await sendAttributed(text: text,ignore:ignore)
