@@ -21,10 +21,12 @@ struct MicChatView: View {
     @State var player: AVAudioPlayer!
     @State var alert=false
     @State var recFileString:URL!
+    @State var playing:Bool = false
     var body: some View {
         NavigationStack{
             chatListView
                 .navigationTitle("XCA ChatGPT")
+            NavigationLink("feedbackview", destination:LazyView(FeedbackView(vm:vm)), isActive: $vm.isInterviewOver).hidden()
         }
     }
     
@@ -51,6 +53,11 @@ struct MicChatView: View {
             .onChange(of: vm.messages.last?.responseText) { _ in
                 scrollToBottom(proxy: proxy)
                 }
+//            .onChange(of: vm.isInterviewOver){_ in
+//                NavigationStack{
+//                    FeedbackView(vm:vm,messages)
+//                }
+//            }
             .onChange(of: vm.isInteractingWithChatGPT){_ in
                 let str:String = vm.messages.last?.responseText ?? "없어용"
                 Task{
@@ -58,8 +65,8 @@ struct MicChatView: View {
                         await TTS.shared.getSpeech(from : str){result in
                             do{
                                 var data = try Data(contentsOf: result)
-                                var playing = false
-                                if(!playing) {
+                                
+                                if(!playing && !isRecording) {
                                     try self.player = AVAudioPlayer(data:data)
                                     self.player.volume = 100
                                     self.player.play()
@@ -125,6 +132,11 @@ struct MicChatView: View {
                             //let rec = Data(from: self.recFileString)
                             return
                         }
+                        
+                        if(playing){
+                            player.stop()
+                        }
+                        
                         let fileManager = FileManager.default
                         let documentURL = fileManager.urls(for:.documentDirectory, in:.userDomainMask).first!
                         let dateFormatter = DateFormatter()
@@ -191,8 +203,6 @@ struct MicChatView: View {
                 vm.inputMessage="너는 지금부터 면접관이고 나는 면접 대상자야. 가벼운 인사와 함께 이 다음 문장을 질문으로 해줘 "+(cf?.selectedQuestion ?? "질문을 찾을수 없습니다")
                 await vm.promptSend(ignore:true)
             }
-            
-                
         }
 }
     

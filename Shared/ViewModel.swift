@@ -23,7 +23,7 @@ class ViewModel: ObservableObject {
     private var synthesizer: AVSpeechSynthesizer?
     #endif
     
-    private let api: ChatGPTAPI
+    let api: ChatGPTAPI
     
     init(api: ChatGPTAPI, enableSpeech: Bool = false) {
         self.api = api
@@ -48,7 +48,7 @@ class ViewModel: ObservableObject {
     }
     
     @MainActor
-    func sendTapped(ignore:Bool=false, questionCount:Int=11) async {
+    func sendTapped(ignore:Bool=false, overCount:Int=2) async {
         let text = inputMessage
         inputMessage = ""
 //        if(questionCount==1){
@@ -72,14 +72,24 @@ class ViewModel: ObservableObject {
             print(self.chatCount)
             print("isover")
             print(isInterviewOver)
+            if (self.chatCount % 3 == 0){
+                self.api.appendPromptToHistoryList(text: realInterviewPrompts[1])
+                print(realInterviewPrompts[1])
+            }else{
+                self.api.appendPromptToHistoryList(text: realInterviewPrompts[0])
+                print(realInterviewPrompts[0])
+            }
+            
+            self.chatCount = self.chatCount + 1
+//            #if os(iOS)
+//            await sendAttributed(text: text,ignore:ignore)
+//            #else
+            await send(text: text)
+//            #endif
+            if(self.chatCount == overCount){
+                isInterviewOver = true
+            }
         }
-        
-        
-        #if os(iOS)
-        await sendAttributed(text: text,ignore:ignore)
-        #else
-        await send(text: text)
-        #endif
     }
     
     @MainActor
@@ -97,11 +107,11 @@ class ViewModel: ObservableObject {
             return
         }
         self.messages.remove(at: index)
-        #if os(iOS)
-        await sendAttributed(text: message.sendText,ignore:message.isIgnore)
-        #else
+//        #if os(iOS)
+//        await sendAttributed(text: message.sendText,ignore:message.isIgnore)
+//        #else
         await send(text: message.sendText)
-        #endif
+//        #endif
     }
     
     #if os(iOS)
@@ -172,31 +182,33 @@ class ViewModel: ObservableObject {
         self.messages[self.messages.count - 1] = messageRow
         
         isInteractingWithChatGPT = false
-        speakLastResponse()
+        //speakLastResponse()
     }
     #endif
     
     @MainActor
     private func send(text: String) async {
         isInteractingWithChatGPT = true
-        var streamText = ""
+        //var streamText = ""
         var messageRow = MessageRow(
             isInteractingWithChatGPT: true,
             sendImage: "profile",
             send: .rawText(text),
             responseImage: "openai",
-            response: .rawText(streamText),
+            response: .rawText(""),
             responseError: nil)
         
         self.messages.append(messageRow)
         
         do {
-            let stream = try await api.sendMessageStream(text: text)
-            for try await text in stream {
-                streamText += text
-                messageRow.response = .rawText(streamText.trimmingCharacters(in: .whitespacesAndNewlines))
-                self.messages[self.messages.count - 1] = messageRow
-            }
+            let stream = try await api.sendMessage(text)
+//            for try await text in stream {
+//                streamText += text
+//                messageRow.response = .rawText(streamText.trimmingCharacters(in: .whitespacesAndNewlines))
+//                self.messages[self.messages.count - 1] = messageRow
+//            }
+            messageRow.response = .rawText(stream.trimmingCharacters(in:.whitespacesAndNewlines))
+            self.messages[self.messages.count - 1] = messageRow
         } catch {
             messageRow.responseError = error.localizedDescription
         }

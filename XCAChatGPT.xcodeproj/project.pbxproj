@@ -49,6 +49,7 @@
 		E1C661AA2A035E0A002CCEAF /* SentenceButtonVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C661A92A035E0A002CCEAF /* SentenceButtonVC.swift */; };
 		E1C661AC2A0363EA002CCEAF /* SentenceSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C661AB2A0363E9002CCEAF /* SentenceSelectView.swift */; };
 		E1D8EC282A13AE9E004D8E4C /* BackButtonVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D8EC272A13AE9E004D8E4C /* BackButtonVC.swift */; };
+		E1E083ED2A20CDC400FE3B13 /* FeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E083EC2A20CDC400FE3B13 /* FeedbackView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -95,6 +96,7 @@
 		E1C661AB2A0363E9002CCEAF /* SentenceSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentenceSelectView.swift; sourceTree = "<group>"; };
 		E1D8EC272A13AE9E004D8E4C /* BackButtonVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButtonVC.swift; sourceTree = "<group>"; };
 		E1DD05EA2A1DECEB001076DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		E1E083EC2A20CDC400FE3B13 /* FeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +193,7 @@
 				E150DCAF2A0282CB0075EE4A /* CoverletterView.swift */,
 				E1C661AB2A0363E9002CCEAF /* SentenceSelectView.swift */,
 				E1B621D52A0671BF00AB79E3 /* MicChatView.swift */,
+				E1E083EC2A20CDC400FE3B13 /* FeedbackView.swift */,
 			);
 			path = XCAChatGPT;
 			sourceTree = "<group>";
@@ -370,6 +373,7 @@
 				8B612E2529D68CC9008DF5AF /* TextView.swift in Sources */,
 				A47F820F2A1507A600573B79 /* ViewController.swift in Sources */,
 				A47F82132A1507A600573B79 /* NetworkResult.swift in Sources */,
+				E1E083ED2A20CDC400FE3B13 /* FeedbackView.swift in Sources */,
 				8B91C01A298ADF7F0079AF26 /* MessageRowView.swift in Sources */,
 				E150DCA42A022AC70075EE4A /* EdgeInsets.swift in Sources */,
 				A4D6E80C2A1F7DA60058964D /* TTS.swift in Sources */,

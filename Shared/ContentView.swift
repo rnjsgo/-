@@ -16,8 +16,12 @@ struct ContentView: View {
     
     
     var body: some View {
-        chatListView
-            .navigationTitle("XCA ChatGPT")
+        NavigationStack{
+            chatListView
+                .navigationTitle("XCA ChatGPT")
+                .navigationBarTitleDisplayMode(.inline) 
+                NavigationLink("feedbackview", destination:LazyView(FeedbackView(vm:vm)), isActive: $vm.isInterviewOver).hidden()
+        }
     }
     
     var chatListView: some View {
@@ -28,9 +32,9 @@ struct ContentView: View {
                         ForEach(vm.messages) { message in
                             if (!message.isIgnore){
                                 MessageRowView(message: message) { message in
-                                    Task { @MainActor in
-                                        await vm.retry(message: message)
-                                    }
+//                                    Task { @MainActor in
+//                                        await vm.retry(message: message)
+//                                    }
                                 }
                             }
                         }
@@ -49,6 +53,7 @@ struct ContentView: View {
             }
         }
         .background(colorScheme == .light ? .white : Color(red: 52/255, green: 53/255, blue: 65/255, opacity: 0.5))
+        
     }
     
     func bottomView(image: String, proxy: ScrollViewProxy) -> some View {
