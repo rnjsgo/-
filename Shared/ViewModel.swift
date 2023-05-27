@@ -68,8 +68,6 @@ class ViewModel: ObservableObject {
 //            if(self.chatCount == overCount){
 //                isInterviewOver = true
 //            }
-            print("chatcount")
-            print(self.chatCount)
 
             
             
