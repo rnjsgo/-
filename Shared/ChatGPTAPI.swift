@@ -9,7 +9,7 @@ import Foundation
 
 class ChatGPTAPI: @unchecked Sendable {
     
-    private let systemMessage: Message
+    public var systemMessage: Message
     private let temperature: Double
     private let model: String
     private var prompt: String=""
@@ -44,8 +44,9 @@ class ChatGPTAPI: @unchecked Sendable {
     }
     
 
-    init(apiKey: String="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", model: String = "gpt-3.5-turbo", systemPrompt: String = "Act like job interviewer or friend", temperature: Double = 0.5) {
-        self.apiKey = "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"
+    init(apiKey: String="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", model: String = "gpt-3.5-turbo", systemPrompt: String = "면접관처럼 행동하고, 가능한 한 간단하게 말하고, 무조건 한 가지 질문만 하라.", temperature: Double = 0.5) {
+    
+        self.apiKey = "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"
         self.model = model
         self.systemMessage = .init(role: "system", content: systemPrompt)
         self.temperature = temperature

@@ -9,7 +9,7 @@ import Foundation
 
 struct Message: Codable {
     let role: String
-    let content: String
+    var content: String
 }
 
 extension Array where Element == Message {
