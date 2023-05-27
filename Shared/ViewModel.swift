@@ -16,7 +16,6 @@ class ViewModel: ObservableObject {
     @Published var inputMessage: String = ""
     @State var pathStack = NavigationPath()
     @Published public var chatCount:Int
-    @Published private var realInterviewPrompts:[String] = ["이전 답변에 대해서 단 하나의 추가 질문을 하라","면접 상황에 맞게 이전 질문과 다른 적절한 주제의 새로운 질문을 하라" ,"이전 답변에서 추가 질문이 꼭 필요하다고 판단하면 추가적인 질문을 하고, 그렇지 않다면 적절한 주제의 새로운 질문을 하라.","이전 답변에서 추가 질문이 꼭 필요하다고 판단하면 추가적인 질문을 하고, 그렇지 않다면 적절한 주제의 새로운 질문을 하라. 만약 새로운 질문을 한다면 지원자가 제출한 자기소개서 내용에 대한 질문을 하라. 자기소개서 답변이 비어있다면, 인성 관련 면접 질문을 하라. ","이전 답변에서 추가 질문이 꼭 필요하다고 판단하면 추가적인 질문을 하고, 그렇지 않다면 적절한 주제의 새로운 질문을 하라. 만약 새로운 질문을 한다면 지원 직무 관련 지식에 대한 질문을 하라."]
 
     #if !os(watchOS)
     private var synthesizer: AVSpeechSynthesizer?
@@ -32,7 +31,7 @@ class ViewModel: ObservableObject {
             synthesizer = .init()
         }
         #endif
-        self.responseCount = 0
+        chatCount = 0
     }
     
     @MainActor
@@ -47,7 +46,7 @@ class ViewModel: ObservableObject {
     }
     
     @MainActor
-    func sendTapped(ignore:Bool=false, overCount:Int=10) async {
+    func sendTapped(ignore:Bool=false) async {
         self.chatCount = self.chatCount + 1
         let text = inputMessage
         inputMessage = ""
@@ -71,32 +70,8 @@ class ViewModel: ObservableObject {
 //            }
             print("chatcount")
             print(self.chatCount)
-            print("isover")
-            print(isInterviewOver)
-            if(overCount==2){
-                
-            }
-            else{
-//                if (self.chatCount % 3 == 0){
-//                    self.api.changePrompt(text: realInterviewPrompts[1])
-//                    print(realInterviewPrompts[1])
-//                }else{
-//                    self.api.changePrompt(text: realInterviewPrompts[0])
-//                    print(realInterviewPrompts[0])
-//                }
-//                self.api.changePrompt(text: realInterviewPrompts[2])
-                
-                if(self.chatCount>5){
-                    self.api.changePrompt(text: realInterviewPrompts[4])
-                }
-                else if(self.chatCount>3){
-                    self.api.changePrompt(text: realInterviewPrompts[3])
-                }
-                else{
-                    self.api.changePrompt(text: realInterviewPrompts[2])
-                }
-                
-            }
+
+            
             
 //            #if os(iOS)
 //            await sendAttributed(text: text,ignore:ignore)
@@ -227,7 +202,7 @@ class ViewModel: ObservableObject {
             if (!ignore){
                 //프롬프트의 경우 무시
                 //답변에 성공하면 카운트 + 1
-                self.responseCount = self.responseCount + 1
+                self.chatCount = self.chatCount + 1
             }
         } catch {
             messageRow.responseError = error.localizedDescription
