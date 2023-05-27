@@ -70,7 +70,7 @@ class ViewController {
                     return
                 }
                 for questionData in data.question {
-                    print(questionData.question)
+//                    print(questionData.question)
                     ret.append(questionData.question)
                 }
                 completion(ret) // Return the populated `ret` array

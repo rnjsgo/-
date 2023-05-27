@@ -74,7 +74,8 @@ struct CoverletterView: View {
                 }
                 
                 
-                NavigationLink(destination:LazyView(ContentView(cf:cf.setCoverLetterAnswer(answer: text), vm: ViewModel(api: ChatGPTAPI(apiKey: "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"))))){
+                NavigationLink(destination:LazyView(MicChatView(cf:cf.setCoverLetterAnswer(answer: text), vm: ViewModel(api: ChatGPTAPI(apiKey: "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")),isSingle:false))){
+                    
                     MenuButton_small_View(text:"작성완료")
                 }
                 .padding(.bottom, 30)

@@ -16,9 +16,9 @@ class ViewModel: ObservableObject {
     @Published var messages: [MessageRow] = []
     @Published var inputMessage: String = ""
     @State var pathStack = NavigationPath()
-    @Published private var chatCount:Int
-    @Published private var realInterviewPrompts:[String] = ["방금 답변에 대해서 추가적으로 단 하나의 질문을 생성하고 그 질문으로 질문해줘", "이번엔 면접 상황에 맞는 적절한 다른 주제의 새로운 질문을 생성하고 면접자에게 그 질문으로 질문해줘","이번에는 질문을 하지 말고, 지금까지 했던 답변에 대해 피드백 해줘"]
-    
+    @Published public var chatCount:Int
+    @Published private var realInterviewPrompts:[String] = ["이전 답변에 대해서 단 하나의 추가 질문을 하라","면접 상황에 맞게 이전 질문과 다른 적절한 주제의 새로운 질문을 하라","이번에는 질문을 하지 말고, 지금까지 했던 답변에 대해 피드백 해줘"]
+
     #if !os(watchOS)
     private var synthesizer: AVSpeechSynthesizer?
     #endif
@@ -48,7 +48,7 @@ class ViewModel: ObservableObject {
     }
     
     @MainActor
-    func sendTapped(ignore:Bool=false, overCount:Int=3) async {
+    func sendTapped(ignore:Bool=false, overCount:Int=11) async {
         let text = inputMessage
         inputMessage = ""
 //        if(questionCount==1){
@@ -72,12 +72,17 @@ class ViewModel: ObservableObject {
             print(self.chatCount)
             print("isover")
             print(isInterviewOver)
-            if (self.chatCount % 3 == 0){
-                self.api.changePrompt(text: realInterviewPrompts[1])
-                print(realInterviewPrompts[1])
-            }else{
-                self.api.changePrompt(text: realInterviewPrompts[0])
-                print(realInterviewPrompts[0])
+            if(chatCount==2){
+                
+            }
+            else{
+                if (self.chatCount % 3 == 0){
+                    self.api.changePrompt(text: realInterviewPrompts[1])
+                    print(realInterviewPrompts[1])
+                }else{
+                    self.api.changePrompt(text: realInterviewPrompts[0])
+                    print(realInterviewPrompts[0])
+                }
             }
             
             self.chatCount = self.chatCount + 1

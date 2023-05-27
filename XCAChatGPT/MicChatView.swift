@@ -13,7 +13,7 @@ struct MicChatView: View {
     @Environment(\.colorScheme) var colorScheme
     @ObservedObject var vm: ViewModel
     
-    
+    @State var isSingle:Bool = false
     @State var isRecording:Bool = false
     //recording instance
     @State var session : AVAudioSession!
@@ -124,7 +124,12 @@ struct MicChatView: View {
                                     vm.inputMessage = result as! String
                                     Task{@MainActor in
                                         scrollToBottom(proxy: proxy)
-                                        await vm.sendTapped()
+                                        if(isSingle){
+                                            await vm.sendTapped(overCount: 2)
+                                        }
+                                        else{
+                                            await vm.sendTapped(overCount: 11)
+                                        }
                                     }
                                 }
                             }catch{
@@ -206,7 +211,19 @@ struct MicChatView: View {
             }
             Task { @MainActor in
                 scrollToBottom(proxy: proxy)
-                vm.inputMessage="너는 지금부터 면접관이고 나는 면접 대상자야. 가벼운 인사와 함께 이 다음 문장을 질문으로 해줘 "+(cf?.selectedQuestion ?? "질문을 찾을수 없습니다")
+                if(isSingle){
+                    vm.inputMessage="너는 지금부터 면접관이고 나는 면접 대상자야. 가벼운 인사와 함께 최대한 간단하게 다음 문장을 질문으로 해줘. "+(cf?.selectedQuestion ?? "질문을 찾을수 없습니다")
+                }
+                else{
+                    if(vm.chatCount==1){
+                        vm.api.changePrompt(text:"질문 전에 짧게 인사를 하고, 자기소개를 부탁하는 질문으로 면접을 시작하라")
+                    }
+                    vm.inputMessage="너는 지금부터 면접관이고 나는 지원자야. 실제 면접처럼 하나씩만 질문해줘. 다음은 면접에 대한 정보야."
+                    vm.inputMessage+="1. 지원자가 지원한 직무 분야는 "+(cf?.jobCategory ?? "")+"이다. "
+                    vm.inputMessage+="2. 다음은 지원자가 제출한 자기소개서 문항과 그에 대한 답변이다."
+                    vm.inputMessage+="문항 :"+(cf?.coverLetterQuestion ?? "")
+                    vm.inputMessage+=", 답변 : "+(cf?.coverLetterAnswer ?? "")
+                }
                 await vm.promptSend(ignore:true)
             }
         }
