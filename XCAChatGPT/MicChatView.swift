@@ -21,7 +21,7 @@ struct MicChatView: View {
     @State var player: AVAudioPlayer!
     @State var alert=false
     @State var recFileString:URL!
-    @State var playing:Bool = false
+    //@State var playing:Bool = false
     var body: some View {
         NavigationStack{
             chatListView
@@ -66,11 +66,13 @@ struct MicChatView: View {
                             do{
                                 var data = try Data(contentsOf: result)
                                 
-                                if(!playing && !isRecording) {
+                                if((self.player != nil && !self.player.isPlaying) ||
+                                   (self.player == nil)
+                                   && !isRecording) {
                                     try self.player = AVAudioPlayer(data:data)
-                                    self.player.volume = 100
+                                    try? session.setCategory(.playAndRecord, mode: .default, policy: .default, options: .defaultToSpeaker)
+                                    self.player.setVolume(15, fadeDuration: 9999999)
                                     self.player.play()
-                                    playing = true
                                 }
                             }catch{
                                 print(error.localizedDescription)
@@ -132,18 +134,22 @@ struct MicChatView: View {
                             //let rec = Data(from: self.recFileString)
                             return
                         }
+                            if let p = self.player{
+                                if p.isPlaying{
+                                    player.stop()
+                                }
+                            }
+     
                         
-                        if(playing){
-                            player.stop()
-                        }
                         
                         let fileManager = FileManager.default
                         let documentURL = fileManager.urls(for:.documentDirectory, in:.userDomainMask).first!
-                        let dateFormatter = DateFormatter()
+                        //let dateFormatter = DateFormatter()
                         
-                        dateFormatter.dateFormat="YYYYMMDDHHMMSS"
+                        //dateFormatter.dateFormat="YYYYMMDDHHMMSS"
                         //저장될 파일 이름
-                        let fileName = documentURL.appendingPathComponent(dateFormatter.string(from:Date())+"Q.m4a")
+                        //let fileName = documentURL.appendingPathComponent(dateFormatter.string(from:Date())+"Q.m4a")
+                        let fileName = documentURL.appendingPathComponent("Q.m4a")
                         let settings=[
                             AVFormatIDKey : Int(kAudioFormatMPEG4AAC),
                             AVSampleRateKey: 44100,

@@ -75,7 +75,7 @@ class ChatGPTAPI: @unchecked Sendable {
     }
     
     public func appendPromptToHistoryList(text:String){
-        self.historyList.append(.init(role:"system",content: text))
+        self.prompt=text
     }
     public func changePrompt(text:String){
         self.prompt=text

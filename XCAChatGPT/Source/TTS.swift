@@ -36,11 +36,12 @@ class TTS {
             let fileManager = FileManager.default
 //            let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
             let documentURL = fileManager.urls(for:.documentDirectory, in:.userDomainMask).first!
-            let dateFormatter = DateFormatter()
-            
-            dateFormatter.dateFormat="YYYYMMDDHHMMSS"
+//            let dateFormatter = DateFormatter()
+//
+//            dateFormatter.dateFormat="YYYYMMDDHHMMSS"
             //저장될 파일 이름
-            let fileName = documentURL.appendingPathComponent(dateFormatter.string(from:Date())+"A.mp3")
+            //let fileName = documentURL.appendingPathComponent(dateFormatter.string(from:Date())+"A.mp3")
+            let fileName = documentURL.appendingPathComponent("A.mp3")
             do{try data?.write(to: fileName)}
             catch{print("실패~")}
             completion(fileName)

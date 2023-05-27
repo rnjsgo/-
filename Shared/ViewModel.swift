@@ -48,7 +48,7 @@ class ViewModel: ObservableObject {
     }
     
     @MainActor
-    func sendTapped(ignore:Bool=false, overCount:Int=2) async {
+    func sendTapped(ignore:Bool=false, overCount:Int=3) async {
         let text = inputMessage
         inputMessage = ""
 //        if(questionCount==1){
@@ -73,10 +73,10 @@ class ViewModel: ObservableObject {
             print("isover")
             print(isInterviewOver)
             if (self.chatCount % 3 == 0){
-                self.api.appendPromptToHistoryList(text: realInterviewPrompts[1])
+                self.api.changePrompt(text: realInterviewPrompts[1])
                 print(realInterviewPrompts[1])
             }else{
-                self.api.appendPromptToHistoryList(text: realInterviewPrompts[0])
+                self.api.changePrompt(text: realInterviewPrompts[0])
                 print(realInterviewPrompts[0])
             }
             
