@@ -23,8 +23,10 @@ import java.util.List;
 public class ApiService {
     public String stt(MultipartFile multipartFile) throws IOException {
         File file = new File(multipartFile.getOriginalFilename());
-        multipartFile.transferTo(file);
         file.createNewFile();
+        FileOutputStream fos=new FileOutputStream(file);
+        fos.write(multipartFile.getBytes());
+        fos.close();
         m4aToWav(file.getName());
         return recognitionSpeech("test.wav");
     }
@@ -44,7 +46,7 @@ public class ApiService {
 
             // Select the type of audio file you want returned
             AudioConfig audioConfig =
-                    AudioConfig.newBuilder().setAudioEncoding(AudioEncoding.MP3).build();
+                    AudioConfig.newBuilder().setVolumeGainDb(6.0).setSpeakingRate(1.0).setAudioEncoding(AudioEncoding.MP3).build();
 
             // Perform the text-to-speech request on the text input with the selected voice parameters and
             // audio file type
@@ -85,8 +87,8 @@ public class ApiService {
 
             // 오디오 파일에 대한 설정부분
             RecognitionConfig config = RecognitionConfig.newBuilder()
-                    .setEncoding(RecognitionConfig.AudioEncoding.LINEAR16)
-                    .setSampleRateHertz(48000)
+                    .setEncoding(RecognitionConfig.AudioEncoding.ENCODING_UNSPECIFIED)
+//                    .setSampleRateHertz(12000)
                     .setLanguageCode("ko-KR")
                     .build();
 
@@ -97,7 +99,7 @@ public class ApiService {
             for (SpeechRecognitionResult result: results) {
                 SpeechRecognitionAlternative alternative = result.getAlternativesList().get(0);
                 text.append(alternative.getTranscript());
-//                System.out.printf("Transcription: %s%n", alternative.getTranscript());
+                System.out.printf("Transcription: %s%n", alternative.getTranscript());
             }
 //            result=results.get(0).getAlternatives(0).getTranscript();
             speech.close();
