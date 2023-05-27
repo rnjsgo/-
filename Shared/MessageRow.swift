@@ -49,7 +49,7 @@ struct MessageRow: Identifiable {
     
     var responseError: String?
     public func copy(messageRow:MessageRow)->MessageRow{
-        return MessageRow(isInteractingWithChatGPT: messageRow.isInteractingWithChatGPT, sendImage: messageRow.sendImage, send: messageRow.send, responseImage: messageRow.responseImage,response:messageRow.response,responseError: messageRow.responseError)
+        return MessageRow(isInteractingWithChatGPT: messageRow.isInteractingWithChatGPT,isIgnore: messageRow.isIgnore,sendImage: messageRow.sendImage, send: messageRow.send, responseImage: messageRow.responseImage,response:messageRow.response,responseError: messageRow.responseError)
     }
 }
 

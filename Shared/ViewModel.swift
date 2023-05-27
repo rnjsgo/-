@@ -37,14 +37,14 @@ class ViewModel: ObservableObject {
     }
     
     @MainActor
-    func promptSend(ignore:Bool=false) async {
+    func promptSend(ignore:Bool=true) async {
         let text = inputMessage
         inputMessage = ""
-        #if os(iOS)
-        await sendAttributed(text: text,ignore:ignore)
-        #else
-        await send(text: text)
-        #endif
+//        #if os(iOS)
+//        await sendAttributed(text: text,ignore:ignore)
+//        #else
+        await send(text: text,ignore:ignore)
+//        #endif
     }
     
     @MainActor
@@ -56,18 +56,18 @@ class ViewModel: ObservableObject {
 //            self.api.changePrompt(text: realInterviewPrompts[2])
 //        }
         if(!isInterviewOver){
-            if (self.chatCount % 3 == 0){
-                self.api.changePrompt(text: realInterviewPrompts[1])
-                print(realInterviewPrompts[1])
-            }else{
-                self.api.changePrompt(text: realInterviewPrompts[0])
-                print(realInterviewPrompts[0])
-            }
-            self.chatCount = self.chatCount + 1
-
-            if(self.chatCount == questionCount){
-                isInterviewOver = true
-            }
+//            if (self.chatCount % 3 == 0){
+//                self.api.changePrompt(text: realInterviewPrompts[1])
+//                print(realInterviewPrompts[1])
+//            }else{
+//                self.api.changePrompt(text: realInterviewPrompts[0])
+//                print(realInterviewPrompts[0])
+//            }
+//            self.chatCount = self.chatCount + 1
+//
+//            if(self.chatCount == overCount){
+//                isInterviewOver = true
+//            }
             print("chatcount")
             print(self.chatCount)
             print("isover")
@@ -187,11 +187,12 @@ class ViewModel: ObservableObject {
     #endif
     
     @MainActor
-    private func send(text: String) async {
+    private func send(text: String, ignore:Bool=false) async {
         isInteractingWithChatGPT = true
         //var streamText = ""
         var messageRow = MessageRow(
             isInteractingWithChatGPT: true,
+            isIgnore: ignore,
             sendImage: "profile",
             send: .rawText(text),
             responseImage: "openai",

@@ -38,8 +38,8 @@ struct XCAChatGPTApp: App {
 //            }
 //        }
         WindowGroup{
-            //HomeView()
-            ContentView(vm:vm)
+            HomeView()
+            //ContentView(vm:vm)
         }
     }
 }
