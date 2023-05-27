@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SingleInterviewCategory: View {
     let cf:ContextFlow
-    
+    @Binding var path:[Int]
     var body: some View {
         NavigationStack{
             VStack{
@@ -28,9 +28,11 @@ struct SingleInterviewCategory: View {
                     //.background(Color.black)
                 
                 
-                NavigationLink(destination:LazyView(SentenceSelectView(title:"인성질문을",
-                                                                       
-                                                                       cf:cf.setQuestionCategory(questionCategory: ContextFlow.QuestionCategory.personality)))){
+                NavigationLink(destination:LazyView(
+                    SentenceSelectView(title:"인성질문을",
+                                       cf:cf.setQuestionCategory(
+                                        questionCategory: ContextFlow.QuestionCategory.personality),
+                                       path:$path))){
                     MenuButton_small_View(text:"인성")
                 }.simultaneousGesture(TapGesture().onEnded{
                 
@@ -38,8 +40,12 @@ struct SingleInterviewCategory: View {
                 .padding(.bottom, 30)
                     .padding(.top,50)
                 
-                NavigationLink(destination:LazyView(SentenceSelectView(title:"창의질문을",
-                                                                       cf:cf.setQuestionCategory(questionCategory: ContextFlow.QuestionCategory.creativity)))){
+                NavigationLink(destination:LazyView(
+                    SentenceSelectView(
+                        title:"창의질문을",
+                        cf:cf.setQuestionCategory(
+                            questionCategory: ContextFlow.QuestionCategory.creativity),
+                        path:$path))){
                     MenuButton_small_View(text:"창의성")
                 }.padding(.bottom, 30)
 //                        .simultaneousGesture(TapGesture().onEnded({
@@ -47,13 +53,21 @@ struct SingleInterviewCategory: View {
 //
 //                })).padding(.bottom, 30)
                 
-                NavigationLink(destination:LazyView(SentenceSelectView(title:"사회질문을",
-                                                                       cf:cf.setQuestionCategory(questionCategory: ContextFlow.QuestionCategory.social)))){
+                NavigationLink(destination:LazyView(
+                    SentenceSelectView(
+                        title:"사회질문을",
+                        cf:cf.setQuestionCategory(
+                            questionCategory: ContextFlow.QuestionCategory.social),
+                        path:$path))){
                     MenuButton_small_View(text:"사회 / 시사")
                 }.padding(.bottom, 30)
                 
-                NavigationLink(destination:LazyView(SentenceSelectView(title:"직무적합도질문을",
-                                                                       cf:cf.setQuestionCategory(questionCategory: ContextFlow.QuestionCategory.job)))){
+                NavigationLink(destination:LazyView(
+                    SentenceSelectView(
+                        title:"직무적합도질문을",
+                        cf:cf.setQuestionCategory(
+                            questionCategory: ContextFlow.QuestionCategory.job)
+                        ,path:$path))){
                     MenuButton_small_View(text:"직무적합도")
                 }.padding(.bottom, 80)
                 
@@ -61,10 +75,10 @@ struct SingleInterviewCategory: View {
         }
     }
 }
-    
-struct SingleInterviewCategory_Previews: PreviewProvider {
-    static var previews: some View {
-        SingleInterviewCategory(cf:ContextFlow())
-    }
-}
-
+//
+//struct SingleInterviewCategory_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SingleInterviewCategory(cf:ContextFlow(),GoToHome: .constant(true))
+//    }
+//}
+//

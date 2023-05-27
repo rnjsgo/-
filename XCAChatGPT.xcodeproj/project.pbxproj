@@ -37,6 +37,7 @@
 		A47F82132A1507A600573B79 /* NetworkResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47F820E2A1507A600573B79 /* NetworkResult.swift */; };
 		A4D6E80C2A1F7DA60058964D /* TTS.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4D6E80B2A1F7DA60058964D /* TTS.swift */; };
 		E11588DE2A1896EE002F9651 /* ContextFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11588DD2A1896EE002F9651 /* ContextFlow.swift */; };
+		E12699B02A2246B00015D0FC /* NavigationUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12699AF2A2246B00015D0FC /* NavigationUtil.swift */; };
 		E150DCA22A021C200075EE4A /* MenuButtonVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E150DCA12A021C200075EE4A /* MenuButtonVC.swift */; };
 		E150DCA42A022AC70075EE4A /* EdgeInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = E150DCA32A022AC70075EE4A /* EdgeInsets.swift */; };
 		E150DCA62A0268E40075EE4A /* TESTVIEW.swift in Sources */ = {isa = PBXBuildFile; fileRef = E150DCA52A0268E40075EE4A /* TESTVIEW.swift */; };
@@ -83,6 +84,7 @@
 		A4D6E80B2A1F7DA60058964D /* TTS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TTS.swift; sourceTree = "<group>"; };
 		CAAE7F5477E4D078FD8516AA /* Pods-XCAChatGPT.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XCAChatGPT.release.xcconfig"; path = "Target Support Files/Pods-XCAChatGPT/Pods-XCAChatGPT.release.xcconfig"; sourceTree = "<group>"; };
 		E11588DD2A1896EE002F9651 /* ContextFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextFlow.swift; sourceTree = "<group>"; };
+		E12699AF2A2246B00015D0FC /* NavigationUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationUtil.swift; sourceTree = "<group>"; };
 		E150DCA12A021C200075EE4A /* MenuButtonVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtonVC.swift; sourceTree = "<group>"; };
 		E150DCA32A022AC70075EE4A /* EdgeInsets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeInsets.swift; sourceTree = "<group>"; };
 		E150DCA52A0268E40075EE4A /* TESTVIEW.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TESTVIEW.swift; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 				E1D8EC272A13AE9E004D8E4C /* BackButtonVC.swift */,
 				E11588DD2A1896EE002F9651 /* ContextFlow.swift */,
 				E19DC7082A18B241005D0A9D /* LazyView.swift */,
+				E12699AF2A2246B00015D0FC /* NavigationUtil.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -363,6 +366,7 @@
 				8BC0F8D729F1583300D6B492 /* ParserResult.swift in Sources */,
 				E150DCB02A0282CB0075EE4A /* CoverletterView.swift in Sources */,
 				E150DCA82A026E470075EE4A /* ColorHex.swift in Sources */,
+				E12699B02A2246B00015D0FC /* NavigationUtil.swift in Sources */,
 				E19DC7092A18B241005D0A9D /* LazyView.swift in Sources */,
 				8B91C018298ADF4E0079AF26 /* DotLoadingView.swift in Sources */,
 				A47F82112A1507A600573B79 /* QuestionModel.swift in Sources */,
@@ -510,7 +514,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"XCAChatGPT/Preview Content\"";
-				DEVELOPMENT_TEAM = X6Q8XZ4STT;
+				DEVELOPMENT_TEAM = 64HU7X93SP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = XCAChatGPT/Info.plist;
@@ -527,7 +531,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.max8276.jnuCapgfsa;
+				PRODUCT_BUNDLE_IDENTIFIER = com.max8276.jnu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -541,10 +545,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"XCAChatGPT/Preview Content\"";
-				DEVELOPMENT_TEAM = X6Q8XZ4STT;
+				DEVELOPMENT_TEAM = 64HU7X93SP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = XCAChatGPT/Info.plist;
@@ -561,8 +566,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.max8276.jnuCapgfsa;
+				PRODUCT_BUNDLE_IDENTIFIER = com.max8276.jnu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

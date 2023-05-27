@@ -7,11 +7,15 @@
 
 import SwiftUI
 
+
+
+
 @main
 struct XCAChatGPTApp: App {
     
     @StateObject var vm = ViewModel(api: ChatGPTAPI(apiKey: "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"))
     @State var isShowingTokenizer = false
+    @ObservedObject var appState = AppState()
     
     var body: some Scene {
 //        WindowGroup {
@@ -39,6 +43,8 @@ struct XCAChatGPTApp: App {
 //        }
         WindowGroup{
             HomeView()
+                .id(appState.rootViewId)
+                                .environmentObject(appState)
             //ContentView(vm:vm)
         }
     }

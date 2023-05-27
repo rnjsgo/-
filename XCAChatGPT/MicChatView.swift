@@ -9,11 +9,11 @@ import SwiftUI
 import AVKit
 
 struct MicChatView: View {
-    var cf:ContextFlow?
+    var cf:ContextFlow
+    @Binding var path:[Int]
     @Environment(\.colorScheme) var colorScheme
     @ObservedObject var vm: ViewModel
     
-    @State var isSingle:Bool = false
     @State var isRecording:Bool = false
     //recording instance
     @State var session : AVAudioSession!
@@ -21,12 +21,25 @@ struct MicChatView: View {
     @State var player: AVAudioPlayer!
     @State var alert=false
     @State var recFileString:URL!
-    //@State var playing:Bool = false
+    
+    
+    @State var overCount:Int = 0
+    @State var isChatOver: Bool = false
+    @State var sendCount:Int = 0
+
     var body: some View {
         NavigationStack{
             chatListView
                 .navigationTitle("XCA ChatGPT")
-            NavigationLink("feedbackview", destination:LazyView(FeedbackView(vm:vm)), isActive: $vm.isInterviewOver).hidden()
+            NavigationLink("feedbackview", destination:LazyView(
+                FeedbackView(vm:vm,path:$path)),isActive: $isChatOver)
+            .hidden()
+        }.onAppear{
+            if(cf.dialogType == ContextFlow.DialogType.single){
+                self.overCount = 1
+            }else{
+                self.overCount = 10
+            }
         }
     }
     
@@ -58,10 +71,10 @@ struct MicChatView: View {
 //                    FeedbackView(vm:vm,messages)
 //                }
 //            }
-            .onChange(of: vm.isInteractingWithChatGPT){_ in
+            .onChange(of: vm.messages.last?.responseText){_ in
                 let str:String = vm.messages.last?.responseText ?? "없어용"
                 Task{
-                    if(!vm.isInteractingWithChatGPT){
+                    if(!isChatOver){
                         await TTS.shared.getSpeech(from : str){result in
                             do{
                                 var data = try Data(contentsOf: result)
@@ -122,13 +135,26 @@ struct MicChatView: View {
                                 STT.shared.getText(data: rec){result in
                                     print(result)
                                     vm.inputMessage = result as! String
+                                    self.sendCount = self.sendCount + 1
+                                    if(self.sendCount == self.overCount){
+                                        let messageRow = MessageRow(
+                                            isInteractingWithChatGPT: true,
+                                            isIgnore: false,
+                                            sendImage: "profile",
+                                            send: .rawText(result as! String),
+                                            responseImage: "openai",
+                                            response: .rawText(""),
+                                            responseError: nil)
+                                        vm.messages.append(messageRow)
+                                        self.isChatOver = true
+                                    }
                                     Task{@MainActor in
                                         scrollToBottom(proxy: proxy)
-                                        if(isSingle){
-                                            await vm.sendTapped(overCount: 2)
+                                        if(cf.dialogType == ContextFlow.DialogType.single){
+                                            await vm.sendTapped()
                                         }
                                         else{
-                                            await vm.sendTapped(overCount: 11)
+                                            await vm.sendTapped()
                                         }
                                     }
                                 }
@@ -211,18 +237,18 @@ struct MicChatView: View {
             }
             Task { @MainActor in
                 scrollToBottom(proxy: proxy)
-                if(isSingle){
-                    vm.inputMessage="너는 지금부터 면접관이고 나는 면접 대상자야. 가벼운 인사와 함께 최대한 간단하게 다음 문장을 질문으로 해줘. "+(cf?.selectedQuestion ?? "질문을 찾을수 없습니다")
+                if(cf.dialogType == ContextFlow.DialogType.single){
+                    vm.inputMessage="너는 지금부터 면접관이고 나는 면접 대상자야. 가벼운 인사와 함께 최대한 간단하게 다음 문장을 질문으로 해줘. "+(cf.selectedQuestion ?? "질문을 찾을수 없습니다")
                 }
                 else{
-                    if(vm.chatCount==1){
+                    if(self.sendCount == 0){
                         vm.api.changePrompt(text:"질문 전에 짧게 인사를 하고, 자기소개를 부탁하는 질문으로 면접을 시작하라")
                     }
                     vm.inputMessage="너는 지금부터 면접관이고 나는 지원자야. 실제 면접처럼 하나씩만 질문해줘. 다음은 면접에 대한 정보야."
-                    vm.inputMessage+="1. 지원자가 지원한 직무 분야는 "+(cf?.jobCategory ?? "")+"이다. "
+                    vm.inputMessage+="1. 지원자가 지원한 직무 분야는 "+(cf.jobCategory ?? "")+"이다. "
                     vm.inputMessage+="2. 다음은 지원자가 제출한 자기소개서 문항과 그에 대한 답변이다."
-                    vm.inputMessage+="문항 :"+(cf?.coverLetterQuestion ?? "")
-                    vm.inputMessage+=", 답변 : "+(cf?.coverLetterAnswer ?? "")
+                    vm.inputMessage+="문항 :"+(cf.coverLetterQuestion ?? "")
+                    vm.inputMessage+=", 답변 : "+(cf.coverLetterAnswer ?? "")
                 }
                 await vm.promptSend(ignore:true)
             }
@@ -235,10 +261,11 @@ struct MicChatView: View {
     }
 }
 
-struct MicChatView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            MicChatView(vm: ViewModel(api: ChatGPTAPI(apiKey: "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")))
-        }
-    }
-}
+//struct MicChatView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NavigationStack {
+//            MicChatView(cf:ContextFlow(),GoToHome: .constant(true),
+//                        vm: ViewModel(api: ChatGPTAPI()))
+//        }
+//    }
+//}

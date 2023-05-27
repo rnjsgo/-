@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CoverletterView: View {
     var cf:ContextFlow
+    @Binding var path:[Int]
     @State private var text = ""
     @FocusState private var isFocused: Bool
     
@@ -74,7 +75,11 @@ struct CoverletterView: View {
                 }
                 
                 
-                NavigationLink(destination:LazyView(MicChatView(cf:cf.setCoverLetterAnswer(answer: text), vm: ViewModel(api: ChatGPTAPI(apiKey: "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")),isSingle:false))){
+                NavigationLink(destination:LazyView(
+                    MicChatView(
+                        cf:cf.setCoverLetterAnswer(answer: text),
+                        path:$path,
+                        vm: ViewModel(api: ChatGPTAPI())))){
                     
                     MenuButton_small_View(text:"작성완료")
                 }
@@ -83,10 +88,10 @@ struct CoverletterView: View {
         }
     }
 }
-struct CoverletterView_Previews: PreviewProvider {
-    static var previews: some View {
-        CoverletterView(cf:ContextFlow(coverLetterQuestion:"테스트질문입니다."))
-    }
-}
+//struct CoverletterView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CoverletterView(cf:ContextFlow(coverLetterQuestion:"테스트질문입니다."),GoToHome: .constant(true))
+//    }
+//}
 
 

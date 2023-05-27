@@ -15,25 +15,34 @@ struct FeedbackView: View {
     @State private var messageRow: FeedbackButtonView?
     
     @State private var messages:[FeedbackButtonView] = []
+    @Binding var path:[Int]
+    @EnvironmentObject var appState: AppState
     
     let coloredNavAppearance = UINavigationBarAppearance()
-    init(vm: ViewModel){
-        self.vm = vm
-        
-        coloredNavAppearance.configureWithOpaqueBackground()
-        coloredNavAppearance.backgroundColor = UIColor.white
-        coloredNavAppearance.titleTextAttributes = [.foregroundColor: UIColor.black]
-        coloredNavAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
-        UINavigationBar.appearance().standardAppearance = coloredNavAppearance
-        UINavigationBar.appearance().scrollEdgeAppearance = coloredNavAppearance
-    }
+//    init(vm: ViewModel,GoToHome:Binding<Bool>){
+//        self.vm = vm
+//
+//        coloredNavAppearance.configureWithOpaqueBackground()
+//        coloredNavAppearance.backgroundColor = UIColor.white
+//        coloredNavAppearance.titleTextAttributes = [.foregroundColor: UIColor.black]
+//        coloredNavAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
+//        UINavigationBar.appearance().standardAppearance = coloredNavAppearance
+//        UINavigationBar.appearance().scrollEdgeAppearance = coloredNavAppearance
+//        _GoToHome = GoToHome
+//    }
     
     
     var body: some View {
             chatListView
                 .navigationTitle("피드백")
                 .navigationBarTitleDisplayMode(.inline)
-                //.navigationBarItems(leading: )
+                .navigationBarBackButtonHidden(true)
+                .navigationBarItems(leading: Button(action:{
+                    //path = []
+                    appState.rootViewId = UUID()
+                },label: {
+                    Text("< 홈으로")
+                }))
                 .onAppear{
                     for message in vm.messages  {
                         let m = message.copy(messageRow: message)
@@ -111,9 +120,14 @@ struct FeedbackButtonView: View, Identifiable{
     var text: String
     var image: String
     var responseError:String?
+    var isResponse:Bool = false
     
     init(message:MessageRow, isResponse:Bool=false){
+        self.isResponse = isResponse
         if(isResponse){
+            if(message.responseText == ""){
+                self.isIgnore = true
+            }
             self.text = message.responseText!
             self.image = message.responseImage
             if(message.responseError != nil){
@@ -129,7 +143,7 @@ struct FeedbackButtonView: View, Identifiable{
     var body: some View{
         if(!isIgnore){
             VStack{
-                HStack(alignment: .center, spacing:24) {
+                HStack(alignment: .top, spacing:24) {
                         Image(image).resizable()
                             .frame(width: 32, height: 32)
                         

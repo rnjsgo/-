@@ -12,11 +12,10 @@ import AVKit
 class ViewModel: ObservableObject {
     
     @Published var isInteractingWithChatGPT = false
-    @Published var isInterviewOver = false
     @Published var messages: [MessageRow] = []
     @Published var inputMessage: String = ""
     @State var pathStack = NavigationPath()
-    @Published public var chatCount:Int
+    @Published public var responseCount:Int
     @Published private var realInterviewPrompts:[String] = ["이전 답변에 대해서 단 하나의 추가 질문을 하라","면접 상황에 맞게 이전 질문과 다른 적절한 주제의 새로운 질문을 하라","이번에는 질문을 하지 말고, 지금까지 했던 답변에 대해 피드백 해줘"]
 
     #if !os(watchOS)
@@ -33,7 +32,7 @@ class ViewModel: ObservableObject {
             synthesizer = .init()
         }
         #endif
-        self.chatCount = 1
+        self.responseCount = 0
     }
     
     @MainActor
@@ -48,14 +47,15 @@ class ViewModel: ObservableObject {
     }
     
     @MainActor
-    func sendTapped(ignore:Bool=false, overCount:Int=11) async {
+    func sendTapped(ignore:Bool=false) async {
         let text = inputMessage
         inputMessage = ""
+        
 //        if(questionCount==1){
 //            isInterviewOver=true
 //            self.api.changePrompt(text: realInterviewPrompts[2])
 //        }
-        if(!isInterviewOver){
+        
 //            if (self.chatCount % 3 == 0){
 //                self.api.changePrompt(text: realInterviewPrompts[1])
 //                print(realInterviewPrompts[1])
@@ -68,33 +68,22 @@ class ViewModel: ObservableObject {
 //            if(self.chatCount == overCount){
 //                isInterviewOver = true
 //            }
-            print("chatcount")
-            print(self.chatCount)
-            print("isover")
-            print(isInterviewOver)
-            if(chatCount==2){
-                
-            }
-            else{
-                if (self.chatCount % 3 == 0){
-                    self.api.changePrompt(text: realInterviewPrompts[1])
-                    print(realInterviewPrompts[1])
-                }else{
-                    self.api.changePrompt(text: realInterviewPrompts[0])
-                    print(realInterviewPrompts[0])
-                }
-            }
-            
-            self.chatCount = self.chatCount + 1
+        print("responseCount")
+        print(self.responseCount)
+        
+        if (self.responseCount % 3 == 0){
+            self.api.changePrompt(text: realInterviewPrompts[1])
+            print(realInterviewPrompts[1])
+        }else{
+            self.api.changePrompt(text: realInterviewPrompts[0])
+            print(realInterviewPrompts[0])
+        }
+        
 //            #if os(iOS)
 //            await sendAttributed(text: text,ignore:ignore)
 //            #else
-            await send(text: text)
+        await send(text: text)
 //            #endif
-            if(self.chatCount == overCount){
-                isInterviewOver = true
-            }
-        }
     }
     
     @MainActor
@@ -214,7 +203,13 @@ class ViewModel: ObservableObject {
 //                self.messages[self.messages.count - 1] = messageRow
 //            }
             messageRow.response = .rawText(stream.trimmingCharacters(in:.whitespacesAndNewlines))
-            self.messages[self.messages.count - 1] = messageRow
+            //self.messages[self.messages.count - 1] = messageRow
+            
+            if (!ignore){
+                //프롬프트의 경우 무시
+                //답변에 성공하면 카운트 + 1
+                self.responseCount = self.responseCount + 1
+            }
         } catch {
             messageRow.responseError = error.localizedDescription
         }
@@ -227,18 +222,19 @@ class ViewModel: ObservableObject {
     }
     
     func speakLastResponse() {
-        #if !os(watchOS)
-        guard let synthesizer, let responseText = self.messages.last?.responseText, !responseText.isEmpty else {
-            return
-        }
-        stopSpeaking()
-        let utterance = AVSpeechUtterance(string: responseText)
-        utterance.voice = .init(language: "en-US")
-        utterance.rate = 0.5
-        utterance.pitchMultiplier = 0.8
-        utterance.postUtteranceDelay = 0.2
-        synthesizer.speak(utterance )
-        #endif
+//        #if !os(watchOS)
+//        guard let synthesizer, let responseText = self.messages.last?.responseText, !responseText.isEmpty else {
+//            return
+//        }
+//        stopSpeaking()
+//        let utterance = AVSpeechUtterance(string: responseText)
+//        utterance.voice = .init(language: "en-US")
+//        utterance.rate = 0.5
+//        utterance.pitchMultiplier = 0.8
+//        utterance.postUtteranceDelay = 0.2
+//        synthesizer.speak(utterance )
+//        #endif
+        
     }
     
     func stopSpeaking() {

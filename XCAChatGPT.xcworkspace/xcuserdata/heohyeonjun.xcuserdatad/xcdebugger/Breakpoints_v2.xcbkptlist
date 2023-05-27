@@ -14,8 +14,8 @@
             filePath = "XCAChatGPT/SentenceSelectView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "110"
-            endingLineNumber = "110"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "XCAChatGPT/SentenceSelectView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "109"
-            endingLineNumber = "109"
+            startingLineNumber = "124"
+            endingLineNumber = "124"
             landmarkName = "NavigationSentenceView"
             landmarkType = "14">
          </BreakpointContent>
@@ -50,6 +50,22 @@
             endingLineNumber = "44"
             landmarkName = "body"
             landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "76D7B707-3687-4D0E-A5D2-2964E4C63247"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../var/folders/6p/vvn_pkqx46b7pz00l1w9x3f80000gn/T/xcode/scm/jnu-capstone-project/eb396e7c84a0bd4bf5d18aedcfb3c4ff658d9410/Shared/ChatGPTAPI.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "init(apiKey:model:systemPrompt:temperature:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

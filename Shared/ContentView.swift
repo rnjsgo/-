@@ -13,6 +13,7 @@ struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
     @ObservedObject var vm: ViewModel
     @FocusState var isTextFieldFocused: Bool
+    @Binding var path:[Int]
     
     
     var body: some View {
@@ -20,7 +21,7 @@ struct ContentView: View {
             chatListView
                 .navigationTitle("XCA ChatGPT")
                 .navigationBarTitleDisplayMode(.inline) 
-                NavigationLink("feedbackview", destination:LazyView(FeedbackView(vm:vm)), isActive: $vm.isInterviewOver).hidden()
+                NavigationLink("feedbackview", destination:LazyView(FeedbackView(vm:vm,path:$path))).hidden()
         }
     }
     
@@ -112,10 +113,10 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            ContentView(vm: ViewModel(api: ChatGPTAPI(apiKey: "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")))
-        }
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NavigationStack {
+//            ContentView(vm: ViewModel(api: ChatGPTAPI()),GoToHome: .constant(true))
+//        }
+//    }
+//}

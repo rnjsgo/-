@@ -61,9 +61,8 @@ struct MessageRowView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(bgColor)
             HStack{
-                Spacer().frame(width:172)
                 Rectangle().size(width:50, height:1).foregroundColor(Color(hex: "#7B7B7B"))
-            }
+            }.frame(width:50,height:1)
         }
         #endif
             
