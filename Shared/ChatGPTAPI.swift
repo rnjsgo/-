@@ -9,7 +9,7 @@ import Foundation
 
 class ChatGPTAPI: @unchecked Sendable {
     
-    private let systemMessage: Message
+    public var systemMessage: Message
     private let temperature: Double
     private let model: String
     private var prompt: String=""

@@ -241,14 +241,15 @@ struct MicChatView: View {
                     vm.inputMessage="너는 지금부터 면접관이고 나는 면접 대상자야. 가벼운 인사와 함께 최대한 간단하게 다음 문장을 질문으로 해줘. "+(cf.selectedQuestion ?? "질문을 찾을수 없습니다")
                 }
                 else{
-                    if(self.sendCount == 0){
-                        vm.api.changePrompt(text:"질문 전에 짧게 인사를 하고, 자기소개를 부탁하는 질문으로 면접을 시작하라")
+                    if(vm.chatCount==1){
+                        vm.api.changePrompt(text:"질문 전에 짧게 인사를 하고(본인을 소개하지 말 것), 자기소개를 부탁하는 질문으로 면접을 시작하라. ")
+                        vm.api.systemMessage.content+=" 직무와 관련되지 않은 질문은 지양하라. 압박 면접 분위기를 조성하라. 다음은 지원자에 대한 정보이다.이를 참고하여 면접을 진행하라."
+                        vm.api.systemMessage.content+="1. 지원자가 지원한 직무 분야는 "+(cf?.jobCategory ?? "")+"이다. "
+                        vm.api.systemMessage.content+="2. 다음은 지원자가 제출한 자기소개서 문항과 그에 대한 답변이다."
+                        vm.api.systemMessage.content+="문항 :"+(cf?.coverLetterQuestion ?? "")
+                        vm.api.systemMessage.content+=", 답변 : "+(cf?.coverLetterAnswer ?? "")
                     }
-                    vm.inputMessage="너는 지금부터 면접관이고 나는 지원자야. 실제 면접처럼 하나씩만 질문해줘. 다음은 면접에 대한 정보야."
-                    vm.inputMessage+="1. 지원자가 지원한 직무 분야는 "+(cf.jobCategory ?? "")+"이다. "
-                    vm.inputMessage+="2. 다음은 지원자가 제출한 자기소개서 문항과 그에 대한 답변이다."
-                    vm.inputMessage+="문항 :"+(cf.coverLetterQuestion ?? "")
-                    vm.inputMessage+=", 답변 : "+(cf.coverLetterAnswer ?? "")
+                    vm.inputMessage="너는 지금부터 면접관이고 나는 지원자야. 실제 면접처럼 하나씩만 질문해줘."
                 }
                 await vm.promptSend(ignore:true)
             }
