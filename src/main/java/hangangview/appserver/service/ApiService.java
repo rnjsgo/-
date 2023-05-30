@@ -21,7 +21,9 @@ import java.util.List;
 
 @Service
 public class ApiService {
-    public String stt(MultipartFile multipartFile) throws IOException {
+    private String lang;
+    public String stt(MultipartFile multipartFile,String lang) throws IOException {
+        this.lang=lang;
         File file = new File(multipartFile.getOriginalFilename());
         file.createNewFile();
         FileOutputStream fos=new FileOutputStream(file);
@@ -31,18 +33,26 @@ public class ApiService {
         return recognitionSpeech("test.wav");
     }
 
-    public void tts(String text) throws IOException {
+    public void tts(String text,String lang) throws IOException {
         try (TextToSpeechClient textToSpeechClient = TextToSpeechClient.create()) {
             // Set the text input to be synthesized
             SynthesisInput input = SynthesisInput.newBuilder().setText(text).build();
 
             // Build the voice request, select the language code ("en-US") and the ssml voice gender
             // ("neutral")
-            VoiceSelectionParams voice =
-                    VoiceSelectionParams.newBuilder()
+            VoiceSelectionParams voice;
+            if(lang.equals("kr")) {
+                voice=VoiceSelectionParams.newBuilder()
                             .setName("ko-KR-Standard-C")
                             .setLanguageCode("ko-KR")
                             .build();
+            }
+            else{
+                voice=VoiceSelectionParams.newBuilder()
+                        .setName("en-US-Standard-C")
+                        .setLanguageCode("en-US")
+                        .build();
+            }
 
             // Select the type of audio file you want returned
             AudioConfig audioConfig =
@@ -84,14 +94,22 @@ public class ApiService {
         StringBuilder text= new StringBuilder();
         try {
             SpeechClient speech = SpeechClient.create(); // Client 생성
-
+            RecognitionConfig config;
             // 오디오 파일에 대한 설정부분
-            RecognitionConfig config = RecognitionConfig.newBuilder()
-                    .setEncoding(RecognitionConfig.AudioEncoding.ENCODING_UNSPECIFIED)
+            if(lang.equals("kr")) {
+                config = RecognitionConfig.newBuilder()
+                        .setEncoding(RecognitionConfig.AudioEncoding.ENCODING_UNSPECIFIED)
 //                    .setSampleRateHertz(12000)
-                    .setLanguageCode("ko-KR")
-                    .build();
-
+                        .setLanguageCode("ko-KR")
+                        .build();
+            }
+            else{
+                config = RecognitionConfig.newBuilder()
+                        .setEncoding(RecognitionConfig.AudioEncoding.ENCODING_UNSPECIFIED)
+//                    .setSampleRateHertz(12000)
+                        .setLanguageCode("en-US")
+                        .build();
+            }
             RecognitionAudio audio = getRecognitionAudio(filePath); // Audio 파일에 대한 RecognitionAudio 인스턴스 생성
             RecognizeResponse response = speech.recognize(config, audio); // 요청에 대한 응답
 
