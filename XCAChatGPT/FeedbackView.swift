@@ -44,35 +44,18 @@ struct FeedbackView: View {
                     Text("< 홈으로")
                 }))
                 .onAppear{
-                    vm.api.changePrompt(
-                        text:
-"""
-이제부턴 면접에 대해 피드백을 제공해줘야 한다.
-피드백은 아래와 같은 조건을 만족해야 한다.
-1. user의 문장을 요약하고, 의도에 대해 분석한 답변이 먼저 제시되어야 한다. 문장의 요약은 한문장으로 이뤄져야하며, 최대 100자를 넘어선 안된다.
-2. \(cf?.jobCategory)직무에 알맞은 피드백을 제공해야 한다.
-3. 면접상황에서의 대화 맥락을 고려하여 피드백을 제공해야 한다.
-4. 피드백 이외의 문장은 모두 생략한다.
-5. 면접상황에서 질문의 답변 문장에 대해 물어볼 경우, 필요하다면 더 나은 답변을 생성하고 어떠한 점이 부족했던 답변인지에 대해서 설명하라
-6. 면접상황에서 질문 문장에 대해 물어볼 경우, 면접 질문으로서 면접 대상자의 어떠한 면모에 대해 알아보고자 하였는지 질문의 의도에 대해서 설명하고 어떠한 답변이 좋을지 user의 대화내용을 기반하여 모범 답변을 생성하라. 대신, user의 대화내용을 전부 언급하는 행위는 피하라.
-7. 답변은 문단별로 정리하여 항목별로 답하지 않고, 자연스럽게 연결되는 문장들로 구성되어야 하며 전체 답변은 구어체로 구성되어야 한다.
-8. user, assistant라는 단어를 사용하지 않는다. 언급이 필요한경우, 면접과정중 알아낸 면접 대상자의 이름이나, 면접대상자라는 용어를 사용하며 본인에 대해서는 면접관이라는 호칭을 사용한다.
-9. 피드백은 총 500글자를 넘어선 안된다. 만약 피드백이 이를 넘을 경우 적절히 피드백을 요약하여 이 글자수 안에 답변을 다하도록 한다.
-10. 면접 문맥에서 답변을 하더라도 제시된 질문 외의 면접 내용은 최대한 언급을 자제하라.
-"""
-                        //답변의 경우 필요한 경우 더 나은 답변의 예시를 제공해야 한다.
-                    )
+                    vm.api.temperature = 0
                     for message in vm.messages  {
                         let m = message.copy(messageRow: message)
                         self.messages.append(FeedbackButtonView(message: m))
-                        self.messages.append(FeedbackButtonView(message: m,isResponse: true))
+                        self.messages.append(FeedbackButtonView(message: m,isAssistant: true))
                     }
                 }
         Button(action:{
             //print(vm.messages)
         },label:{
             Text("test")
-        })
+        }).hidden()
     }
     
     var chatListView: some View {
@@ -84,7 +67,7 @@ struct FeedbackView: View {
                     message
                 }).buttonStyle(PlainButtonStyle())
             }.sheet(item: $messageRow){message in
-                feedbackSheetView(message:message, vm:vm)
+                feedbackSheetView(message:message, vm:vm, cf:cf!)
             }
         }
     }
@@ -197,28 +180,120 @@ struct FeedbackView_Previews: PreviewProvider {
 struct feedbackSheetView: View{
     var message: FeedbackButtonView
     var vm: ViewModel
+    @State var player: AVAudioPlayer!
+    let cf: ContextFlow
     @State private var text:String = ""
     
     var body: some View{
         ScrollView{
-            message
-            Text(text)
-                .frame(width:340)
-                .fixedSize(horizontal: false, vertical: true)
-                .task{
-                do{
-                    let stream = try await vm.api.sendMessageStream(
+            message.padding(.bottom, 30)
+            if(cf.dialogType == ContextFlow.DialogType.english){
+                Button(action:{
+                    Task{
+                        await TTS.shared.getSpeech(from : message.text, lang: "eng"){result in
+                            do{
+                                var data = try Data(contentsOf: result)
+                                if((self.player != nil && !self.player.isPlaying) ||
+                                   (self.player == nil)) {
+                                    
+                                    try self.player = AVAudioPlayer(data:data)
+                                    self.player.play()
+                                }
+                            }
+                            catch{
+                                print(error.localizedDescription)
+                            }
+                        }
+                    }
+                }, label:{
+                    Text("다시 듣기\n\n")
+                })
+            }
+            if(text == "")
+            {
+                VStack{
+                    DotLoadingView().frame(width: 90, height: 45).padding(.bottom,20)
+                    Text("분석중입니다")
+                        .frame(width:340,alignment: .center)
+                        .fixedSize(horizontal: false, vertical: true)
+                    Text("잠시만 기다려주세요")
+                        .frame(width:340,alignment: .center)
+                }
+            }else{
+                Text(text)
+                    .frame(width:340)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }.task{
+            do{
+                var prompt = ""
+                
+                if(cf.dialogType == ContextFlow.DialogType.real ||
+                   cf.dialogType == ContextFlow.DialogType.single){
+                    prompt = """
+이제부턴 면접에 대해 피드백을 제공해줘야 한다.
+피드백은 반드시 각각의 질문에 답변하는 형식이 아닌, 모든 조건을 만족하는 하나의 지문으로 완성하라.
+피드백 이외의 불필요한 문장은 삭제하여 글자수를 최소화 해야한다. 해당 문장에 대한 요약이나 해당 문장 전체를 언급하는 것을 최대한 자제하여 글자수를 최소화하라.
+피드백은 최대 500글자 이하로 작성되어야만한다.
+하나의 지문은 아래의 조건을 모두 만족해야만 한다.
+피드백이 필요한 문장은 이하 해당 문장으로 칭한다.
+1. 피드백은 \(cf.jobCategory!)직무에 알맞아야 한다.
+"""
+                    if(message.isAssistant){
+                        print("it is Assistant's question")
+                        prompt +=
+"""
+2. 피드백은 해당 문장이 어떠한 의도의 질문인지 그 의도에 대한 해설을 포함해야한다.
+3. 피드백은 해당 문장에 대한 적절한 답변에는 어떤 내용이 표현되야 하는지를 포함해야한다.
+4. 피드백은 (3.)에서 설명한 내용이 적절하게 표현되도록 해당 질문에 대한 모범 답변을 최대한 간략하게 제시하라.
+예시: 해당 질문은 ??? 직무의 ??? 부분에 대해 평가하기 위한 질문입니다. 이 질문의 의도로는 ???, ??? 등의 항목을 면접 대상자에게서 살펴보기 위한 것으로, 이에 대해 ???에 대해 중점적으로 답변하는 것이 좋습니다. 만약 답변을 한다면 "???"과 같이 답변하는 것이 좋은 질문입니다.
+"""
+                    }else{
+                        print("it is user's answer")
+                        prompt +=
+"""
+2. 피드백은 오로지 해당 문장에 대해서만 답변해야한다. 예외적으로 (5.)의 조건을 만족시키기 위한 경우와 해당 문장 이전의 답변에 대해서만 예외적으로 문맥을 고려하라.
+3. 피드백은 해당 문장이 자기소개서등의 문장이아니라, "면접"이라는 상황에서 적절했는지에 대한 객관적인 평가를 제시해야한다. 면접상황에서 적절했는지를 평가하기 위한 요소로는 답변의 길이, 이전 답변들과의 일관성, \(cf.jobCategory!)직무와의 연관성, \(cf.jobCategory!)직무에 대한 열정, 논리적인 전개의 정도, 질문에 대한 이해도 등이다. 특히 \(cf.jobCategory!)직무와의 연관성과 열정 그리고 답변의 길이의 적절성은 중요한 평가사항이다
+4. (3.)의 말미에는 100점이 가장 모범적인 답변이라고 하였을때 (3.)에서의 평가를 근거로 하여 해당 문장이 몇점정도의 답변인지 객관적으로 0점부터 100점사이의 점수를 측정하여 이를 제공해야한다.
+5. 피드백은 해당 문장에 대한 평가 이후, 최대한 간략한 해당 문장의 모범적인 답변을 포함하라. 만약 면접대상자의 답변 중, 참고할만한 내용이 있으면 참고하라.
+예시: 해당 답변은 ??? 직무의 ???질문에 대한 ???한 답변으로 보입니다. ???질문은 ???한 의도를 파악하기 위한 질문으로 이에 대해 ???의 답변은 ???하다고 평가할 수 있습니다. 특히 ???직무에서 이러한 답변은 ???하다고 평가될 수 있으므로 ???합니다. 만약 제가 이 답변에 대한 점수를 줄 수 있다면 100점 만점에 ???점이라고 생각되는 답변입니다. 100점이 아닌 이유로는, ???이라는 점이 더 보완된다면 더욱 좋은 평가를 받을 수 있습니다. 만약 제가 면접대상자님의 답변을 기반으로 수정한다면 "???"으로 수정할 것입니다.
+"""
+                    }
+                } else if(cf.dialogType == ContextFlow.DialogType.english)
+                {
+                    prompt = """
+이제부턴 대화에 대해 피드백을 제공해줘야 한다.
+피드백은 반드시 각각의 질문에 답변하는 형식이 아닌, 모든 조건을 만족하는 하나의 지문으로 완성하라.
+피드백 이외의 불필요한 문장은 삭제하여 글자수를 최소화 해야한다. 해당 문장에 대한 요약이나 해당 문장 전체를 언급하는 것을 최대한 자제하여 글자수를 최소화하라.
+피드백은 최대 500글자 이하로 작성되어야만한다.
+하나의 지문은 아래의 조건을 모두 만족해야만 한다.
+피드백이 필요한 문장은 이하 해당 문장으로 칭한다.
+1. 문장 전체에 대한 해석을 한국어로 작성하라.
+2. 영어 회화를 배우는 입장에서 유용하다고 생각되는 단어에 대해 해당 문장의 부분과 단어의 뜻을 작성하라.
+3. 영어 회화를 배우는 입장에서 유용하다고 생각되는 숙어 혹은 관용어 구문 대해 해당 문장의 부분과 숙어 혹은 관용어 구문의 뜻을 작성하라.
+예시:
+해석: "???"
+유용한 단어 :
+영 ??? / 한 ???
+영 ??? / 한 ???
+...
+유용한 숙어 혹은 관용어 :
+영 ??? / 한 ???
+영 ??? / 한 ???
+...
+"""
+                }
+                
+                vm.api.changePrompt(text: prompt)
+                
+                text = try await vm.api.getFeedback(
 text: """
-면접 상황중 아래의 상황에 대해 피드백 해줘
+면접 상황중 아래의 문장 대해 피드백 해줘
 \(message.text)
 """
-                    )
-                    for try await tmp in stream{
-                        text += tmp
-                    }
-                }catch{
-                    print(error.localizedDescription)
-                }
+                )
+            }catch{
+                print(error.localizedDescription)
             }
         }
     }
@@ -230,11 +305,11 @@ struct FeedbackButtonView: View, Identifiable{
     var text: String
     var image: String
     var responseError:String?
-    var isResponse:Bool = false
+    var isAssistant:Bool = false
     
-    init(message:MessageRow, isResponse:Bool=false){
-        self.isResponse = isResponse
-        if(isResponse){
+    init(message:MessageRow, isAssistant:Bool=false){
+        self.isAssistant = isAssistant
+        if(isAssistant){
             if(message.responseText == ""){
                 self.isIgnore = true
             }

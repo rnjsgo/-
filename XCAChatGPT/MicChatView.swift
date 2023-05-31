@@ -39,14 +39,14 @@ struct MicChatView: View {
             chatListView
                 .navigationTitle("XCA ChatGPT")
             NavigationLink("feedbackview", destination:LazyView(
-                FeedbackView(vm:vm)),isActive: $isChatOver)
+                FeedbackView(cf:cf, vm:vm)),isActive: $isChatOver)
             .hidden()
         }.onAppear{
             //면접 오버카운트 초기화
             if(cf.dialogType == ContextFlow.DialogType.single){
                 self.overCount = 1
             }else{
-                self.overCount = 10
+                self.overCount = 9
             }
         }
     }

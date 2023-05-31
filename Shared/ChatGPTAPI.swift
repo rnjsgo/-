@@ -10,7 +10,7 @@ import Foundation
 class ChatGPTAPI: @unchecked Sendable {
     
     public var systemMessage: Message
-    private let temperature: Double
+    public var temperature: Double
     private let model: String
     private var prompt: String=""
     private let apiKey: String
@@ -44,8 +44,8 @@ class ChatGPTAPI: @unchecked Sendable {
     }
     
 
-    init(apiKey: String="apikey", model: String = "gpt-3.5-turbo", systemPrompt: String = "면접관처럼 행동하고, 가능한 한 간단하게 말하고, 무조건 한 가지 질문만 하라.", temperature: Double = 0.5) {
-        self.apiKey = "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"
+    init(apiKey: String="APIKEY", model: String = "gpt-3.5-turbo", systemPrompt: String = "면접관처럼 행동하고, 가능한 한 간단하게 말하고, 무조건 한 가지 질문만 하라.", temperature: Double = 0.5) {
+        self.apiKey = apiKey
         self.model = model
         self.systemMessage = .init(role: "system", content: systemPrompt)
         self.temperature = temperature
@@ -79,6 +79,35 @@ class ChatGPTAPI: @unchecked Sendable {
     }
     public func changePrompt(text:String){
         self.prompt=text
+    }
+    
+    func getFeedback(text: String) async throws -> String {
+        var urlRequest = self.urlRequest
+        
+        urlRequest.httpBody = try jsonBody(text: text, stream: false)
+        
+        let (data, response) = try await urlSession.data(for: urlRequest)
+        
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw "Invalid response"
+        }
+        
+        guard 200...299 ~= httpResponse.statusCode else {
+            var error = "Bad Response: \(httpResponse.statusCode)"
+            if let errorResponse = try? jsonDecoder.decode(ErrorRootResponse.self, from: data).error {
+                error.append("\n\(errorResponse.message)")
+            }
+            throw error
+        }
+        
+        do {
+            let completionResponse = try self.jsonDecoder.decode(CompletionResponse.self, from: data)
+            let responseText = completionResponse.choices.first?.message.content ?? ""
+            //self.appendToHistoryList(userText: text, responseText: responseText)
+            return responseText
+        } catch {
+            throw error
+        }
     }
     
     func sendMessageStream(text: String) async throws -> AsyncThrowingStream<String, Error> {
@@ -117,7 +146,7 @@ class ChatGPTAPI: @unchecked Sendable {
                             continuation.yield(text)
                         }
                     }
-                    self.appendToHistoryList(userText: text, responseText: responseText)
+                    //self.appendToHistoryList(userText: text, responseText: responseText)
                     continuation.finish()
                 } catch {
                     continuation.finish(throwing: error)
