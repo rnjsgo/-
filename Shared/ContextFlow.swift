@@ -29,6 +29,7 @@ struct ContextFlow{
     
     var coverLetterQuestion:String?="문항이 존재하지 않습니다."
     var coverLetterAnswer:String?="답변이 존재하지 않습니다."
+    var dialogueCase:String?="상황이 선택되지 않았습니다."
     
     public func setSelectedQuestion(question: String)->ContextFlow{
         var cf = self
@@ -44,6 +45,12 @@ struct ContextFlow{
     public func setJobCategory(jobCategory:String)->ContextFlow{
         var cf = self
         cf.jobCategory = jobCategory
+        return cf
+    }
+    
+    public func setDialogueCase(dialogueCase:String)->ContextFlow{
+        var cf = self
+        cf.dialogueCase = dialogueCase
         return cf
     }
     

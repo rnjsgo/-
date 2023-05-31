@@ -8,9 +8,15 @@ class TTS {
 //(2)싱글통 객체를 선언해서 앱 어디에서든지 접근가능하도록 한다
     private init() {}
     
-    func getSpeech(from text:String, completion: @escaping(URL) -> Void)async
+    func getSpeech(from text:String, lang:String, completion: @escaping(URL) -> Void)async
     {
         var url=APIConstants.getTTSURL
+        if(lang=="kr"){
+            url=APIConstants.getTTSURL
+        }
+        else if(lang=="eng"){
+            url=APIConstants.getTTSURL+"/eng"
+        }
         
         
         //HTTP Headers : 요청 헤더

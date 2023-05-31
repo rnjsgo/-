@@ -38,15 +38,16 @@ struct HomeView: View {
                 
                 NavigationLink(destination: LazyView(
                     SentenceSelectView(
-                        title: "직무카테고리를",
+                        title: "지원 직무를",
                         cf:ContextFlow(dialogType: ContextFlow.DialogType.real))))
                 {
                     MenuButtonView(text:"실전면접")
                 }.padding(.bottom, 40)
                 
                 NavigationLink(destination: LazyView(
-                    ContentView(cf:ContextFlow(dialogType: ContextFlow.DialogType.english),
-                                vm: ViewModel(api: ChatGPTAPI()))))
+                    SentenceSelectView(
+                        title: "대화 상황을",
+                        cf:ContextFlow(dialogType: ContextFlow.DialogType.english))))
                 {
                     MenuButtonView(text:"영어회화")
                 }.padding(.bottom, 90)

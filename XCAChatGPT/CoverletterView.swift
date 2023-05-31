@@ -75,8 +75,7 @@ struct CoverletterView: View {
                 
                 
                 NavigationLink(destination:LazyView(
-//                    MicChatView(
-                    ContentView(
+                    MicChatView(
                         cf:cf.setCoverLetterAnswer(answer: text),
                         vm: ViewModel(api: ChatGPTAPI())))){
                     

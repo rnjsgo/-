@@ -16,5 +16,4 @@ struct APIConstants{
     static let getSuitabilityURL=baseURL+"/question/suitability"
     static let getSTTURL=baseURL+"/stt"
     static let getTTSURL=baseURL+"/tts"
-
 }

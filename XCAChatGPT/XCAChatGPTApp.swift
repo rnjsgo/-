@@ -149,7 +149,7 @@ struct XCAChatGPTApp: App {
             }
         }
     }
-}
+
 
 
 struct NavigationTokenView: View {

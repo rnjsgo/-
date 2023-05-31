@@ -8,9 +8,10 @@ class STT {
 //(2)싱글통 객체를 선언해서 앱 어디에서든지 접근가능하도록 한다
     private init() {}
     
-    func getText(data:Data, completion: @escaping(Any)->Void)
+    func getText(data:Data, lang:String, completion: @escaping(Any)->Void)
     {
         var url=APIConstants.getSTTURL
+        if(lang=="eng"){url+="/eng"}
         //HTTP Headers : 요청 헤더
         let header : HTTPHeaders = ["Content-Type" : "multipart/form-data"]
         

@@ -12,7 +12,7 @@ struct MicChatView: View {
     var cf:ContextFlow
     @Environment(\.colorScheme) var colorScheme
     @ObservedObject var vm: ViewModel
-    
+    @State var lang:String="kr"
     @State var isRecording:Bool = false
     //recording instance
     @State var session : AVAudioSession!
@@ -83,7 +83,8 @@ struct MicChatView: View {
                 let str:String = vm.messages.last?.responseText ?? "없어용"
                 Task{
                     if(!isChatOver){
-                        await TTS.shared.getSpeech(from : str){result in
+                        if(cf.dialogType==ContextFlow.DialogType.english) {lang="eng"}
+                        await TTS.shared.getSpeech(from : str, lang: lang){result in
                             do{
                                 var data = try Data(contentsOf: result)
                                 
@@ -137,7 +138,7 @@ struct MicChatView: View {
                             self.isRecording.toggle()
                             do{
                                 let rec = try Data(contentsOf:self.recFileString)
-                                STT.shared.getText(data: rec){result in
+                                STT.shared.getText(data: rec, lang:lang){result in
                                     print(result)
                                     vm.inputMessage = result as! String
                                     self.sendCount = self.sendCount + 1
@@ -275,7 +276,8 @@ struct MicChatView: View {
                     vm.inputMessage="너는 지금부터 면접관이고 나는 지원자야. 실제 면접처럼 하나씩만 질문해줘."
                 }
                 else if(cf.dialogType == ContextFlow.DialogType.english){// 영어회화 첫 프롬프트
-                    print("영어회화 첫 프롬프트")
+                    vm.api.systemMessage.content="you're my interlocutor as a human being. The next sentence is our current conversation situation."+(cf.dialogueCase?.split(separator: "-")[1] ?? "")+". Let's talk realistically as if we really belong to this situation. Please keep the following requirements. 1. Say it as easily as possible. 2. Communicate in English no matter what. 3. Don't just ask question and speak your mind naturally like a real conversation. 4. You should be aware that you are a person, not an AI language model "
+                    vm.inputMessage="Don't start a conversation with a greeting and speak naturally as if we're continuing the conversation that we've been doing before. Don't answer me. Start the conversation right away. Start a conversation in this situation with an interesting topic."
                 }
                 await vm.promptSend(ignore:true)
             }
