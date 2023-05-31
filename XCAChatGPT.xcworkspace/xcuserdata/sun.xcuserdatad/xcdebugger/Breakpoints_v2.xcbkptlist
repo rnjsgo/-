@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "2AFFCA4D-4441-444E-90FA-78E29C1CCD2A"
+   type = "0"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B23AEBF8-ED6F-4E71-B7B4-90296DB0857B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../../../../../var/folders/vy/7vnr6h757d5d957pwrlsxtyw0000gn/T/xcode/scm/jnu-capstone-project/860df5ae5087911666805f6f35c62012d741ddeb/Shared/ChatGPTAPI.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
+            landmarkName = "init(apiKey:model:systemPrompt:temperature:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FCADA2D6-3C85-4091-BD4B-988C1ED7EB13"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../../../../../var/folders/vy/7vnr6h757d5d957pwrlsxtyw0000gn/T/xcode/scm/jnu-capstone-project/860df5ae5087911666805f6f35c62012d741ddeb/XCAChatGPT/Source/ViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "getQuestion(from:completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
