@@ -10,7 +10,6 @@ import AVKit
 
 struct MicChatView: View {
     var cf:ContextFlow
-    @Binding var path:[Int]
     @Environment(\.colorScheme) var colorScheme
     @ObservedObject var vm: ViewModel
     
@@ -40,7 +39,7 @@ struct MicChatView: View {
             chatListView
                 .navigationTitle("XCA ChatGPT")
             NavigationLink("feedbackview", destination:LazyView(
-                FeedbackView(vm:vm,path:$path)),isActive: $isChatOver)
+                FeedbackView(vm:vm)),isActive: $isChatOver)
             .hidden()
         }.onAppear{
             //면접 오버카운트 초기화

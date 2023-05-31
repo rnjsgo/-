@@ -9,7 +9,6 @@ import SwiftUI
 
 struct SingleInterviewCategory: View {
     let cf:ContextFlow
-    @Binding var path:[Int]
     var body: some View {
         NavigationStack{
             VStack{
@@ -31,8 +30,7 @@ struct SingleInterviewCategory: View {
                 NavigationLink(destination:LazyView(
                     SentenceSelectView(title:"인성질문을",
                                        cf:cf.setQuestionCategory(
-                                        questionCategory: ContextFlow.QuestionCategory.personality),
-                                       path:$path))){
+                                        questionCategory: ContextFlow.QuestionCategory.personality)))){
                     MenuButton_small_View(text:"인성")
                 }.simultaneousGesture(TapGesture().onEnded{
                 
@@ -44,8 +42,7 @@ struct SingleInterviewCategory: View {
                     SentenceSelectView(
                         title:"창의질문을",
                         cf:cf.setQuestionCategory(
-                            questionCategory: ContextFlow.QuestionCategory.creativity),
-                        path:$path))){
+                            questionCategory: ContextFlow.QuestionCategory.creativity)))){
                     MenuButton_small_View(text:"창의성")
                 }.padding(.bottom, 30)
 //                        .simultaneousGesture(TapGesture().onEnded({
@@ -57,8 +54,7 @@ struct SingleInterviewCategory: View {
                     SentenceSelectView(
                         title:"사회질문을",
                         cf:cf.setQuestionCategory(
-                            questionCategory: ContextFlow.QuestionCategory.social),
-                        path:$path))){
+                            questionCategory: ContextFlow.QuestionCategory.social)))){
                     MenuButton_small_View(text:"사회 / 시사")
                 }.padding(.bottom, 30)
                 
@@ -66,8 +62,7 @@ struct SingleInterviewCategory: View {
                     SentenceSelectView(
                         title:"직무적합도질문을",
                         cf:cf.setQuestionCategory(
-                            questionCategory: ContextFlow.QuestionCategory.job)
-                        ,path:$path))){
+                            questionCategory: ContextFlow.QuestionCategory.job)))){
                     MenuButton_small_View(text:"직무적합도")
                 }.padding(.bottom, 80)
                 

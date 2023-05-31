@@ -34,6 +34,37 @@ class ViewModel: ObservableObject {
         chatCount = 0
     }
     
+    func reloadHistory(){
+        var message:Message
+        var cnt = 0
+        var messageRow = MessageRow(
+            isInteractingWithChatGPT: true,
+            sendImage: "profile",
+            send: .rawText(""),
+            responseImage: "openai",
+            responseError: nil)
+        
+        for message in api.historyList {
+            if(message.role == "assistant")
+            {
+                if (cnt != 0){
+                    messageRow.response = .rawText(message.content)
+                    self.messages.append(messageRow)
+                }
+            }
+            else if(message.role == "user")
+            {
+                messageRow = MessageRow(
+                    isInteractingWithChatGPT: true,
+                    sendImage: "profile",
+                    send: .rawText(message.content),
+                    responseImage: "openai",
+                    responseError: nil)
+            }
+            cnt += 1
+        }
+    }
+    
     @MainActor
     func promptSend(ignore:Bool=true) async {
         let text = inputMessage

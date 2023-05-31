@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State private var path: [Int]=[]
     var body: some View {
         NavigationStack(){
             VStack{
@@ -32,8 +31,7 @@ struct HomeView: View {
                 
                 NavigationLink(destination: LazyView(
                     SingleInterviewCategory(
-                        cf:ContextFlow(dialogType:ContextFlow.DialogType.single),
-                        path:$path)))
+                        cf:ContextFlow(dialogType:ContextFlow.DialogType.single))))
                 {
                     MenuButtonView(text:"단일면접")
                 }.padding(.bottom, 40)
@@ -41,14 +39,14 @@ struct HomeView: View {
                 NavigationLink(destination: LazyView(
                     SentenceSelectView(
                         title: "직무카테고리를",
-                        cf:ContextFlow(dialogType: ContextFlow.DialogType.real),
-                        path:$path)))
+                        cf:ContextFlow(dialogType: ContextFlow.DialogType.real))))
                 {
                     MenuButtonView(text:"실전면접")
                 }.padding(.bottom, 40)
                 
                 NavigationLink(destination: LazyView(
-                    ContentView(vm: ViewModel(api: ChatGPTAPI()),path:$path)))
+                    ContentView(cf:ContextFlow(dialogType: ContextFlow.DialogType.english),
+                                vm: ViewModel(api: ChatGPTAPI()))))
                 {
                     MenuButtonView(text:"영어회화")
                 }.padding(.bottom, 90)
