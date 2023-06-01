@@ -45,7 +45,7 @@ class ChatGPTAPI: @unchecked Sendable {
     
 
     init(apiKey: String="APIKEY", model: String = "gpt-3.5-turbo", systemPrompt: String = "면접관처럼 행동하고, 가능한 한 간단하게 말하고, 무조건 한 가지 질문만 하라.", temperature: Double = 0.5) {
-        self.apiKey = apiKey
+        self.apiKey = "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"
         self.model = model
         self.systemMessage = .init(role: "system", content: systemPrompt)
         self.temperature = temperature
@@ -58,7 +58,6 @@ class ChatGPTAPI: @unchecked Sendable {
             _ = historyList.removeFirst()
             messages = generateMessages(from: text)
         }
-        print(messages)
         return messages
     }
     
@@ -83,7 +82,6 @@ class ChatGPTAPI: @unchecked Sendable {
     
     func getFeedback(text: String) async throws -> String {
         var urlRequest = self.urlRequest
-        
         urlRequest.httpBody = try jsonBody(text: text, stream: false)
         
         let (data, response) = try await urlSession.data(for: urlRequest)
