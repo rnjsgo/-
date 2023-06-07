@@ -34,34 +34,32 @@ struct FeedbackView: View {
     
     
     var body: some View {
-            chatListView
-                .navigationTitle("피드백")
-                .navigationBarTitleDisplayMode(.inline)
-                .navigationBarBackButtonHidden(true)
-                .navigationBarItems(leading: Button(action:{
-                    //path = []
-                    appState.rootViewId = UUID()
-                },label: {
-                    Text("< 홈으로")
-                }))
-                .onAppear{
-                    vm.api.temperature = 0
-                    for message in vm.messages  {
-                        let m = message.copy(messageRow: message)
-                        self.messages.append(FeedbackButtonView(message: m))
-                        self.messages.append(FeedbackButtonView(message: m,isAssistant: true))
-                    }
+        VStack{
+        chatListView
+            .navigationTitle("피드백")
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden(true)
+            .navigationBarItems(leading: Button(action:{
+                //path = []
+                appState.rootViewId = UUID()
+            },label: {
+                Text("< 홈으로")
+            }))
+            .onAppear{
+                vm.api.temperature = 0
+                for message in vm.messages  {
+                    let m = message.copy(messageRow: message)
+                    self.messages.append(FeedbackButtonView(message: m))
+                    self.messages.append(FeedbackButtonView(message: m,isAssistant: true))
                 }
+            }
         if(cf?.dialogType == ContextFlow.DialogType.real)
-        {
+            {
             Button(action:{
                 isFullFeedback = true
             },label:{
-//                Text("면접 전체 피드백")
-//                    .font(.custom("Arial", size: 25))
-//                    .foregroundColor(Color.black)
+                Text(" ").frame(width:400, height:90).background(Color.white)
             }).buttonStyle(PlainButtonStyle())
-                .frame(height:80)
                 .sheet(isPresented: $isFullFeedback, content: {
                     ScrollView{
                         VStack{
@@ -74,7 +72,9 @@ struct FeedbackView: View {
                                     .fixedSize(horizontal: false, vertical: true)
                                 Text("잠시만 기다려주세요")
                                     .frame(width:340,alignment: .center)
-                                Text("답변이 잘려보이거나 너무 오래 기다리는 경우,")
+                                Text("답변이 잘려보이거나")
+                                    .frame(width:340,alignment: .center)
+                                Text("너무 오랜 시간이 걸릴 경우,")
                                     .frame(width:340,alignment: .center)
                                 Text("화면을 내린 후 다시 로드해주시기 바랍니다.")
                                     .frame(width:340,alignment: .center)
@@ -110,7 +110,7 @@ struct FeedbackView: View {
     """
                             vm.api.changePrompt(text: prompt)
                             fullFeedbackText = try await vm.api.getFeedback(
-                                    text:
+                                text:
 """
 면접 전체에 대해 피드백 해줘
 """)
@@ -120,16 +120,15 @@ struct FeedbackView: View {
                         }
                     }
                 })
-                .frame(width:500,height:100)
-                .background(Color.white)
+                .frame(width:400,height:90)
                 .shadow(radius:10,x:1,y:0)
                 .overlay{
                     Text("면접 전체 피드백")
                         .font(.custom("Arial", size: 25))
                         .foregroundColor(Color.black)
                 }
-                
-                
+            
+        }
         }
         Button(action:{
             
@@ -303,7 +302,9 @@ struct feedbackSheetView: View{
                         .fixedSize(horizontal: false, vertical: true)
                     Text("잠시만 기다려주세요")
                         .frame(width:340,alignment: .center)
-                    Text("답변이 잘려보이거나 너무 오래 걸리는 경우,")
+                    Text("답변이 잘려보이거나")
+                        .frame(width:340,alignment: .center)
+                    Text("너무 오랜 시간이 걸릴 경우,")
                         .frame(width:340,alignment: .center)
                     Text("화면을 내린 후 다시 로드해주시기 바랍니다.")
                         .frame(width:340,alignment: .center)
@@ -353,16 +354,18 @@ struct feedbackSheetView: View{
                 {
                     prompt = """
 이제부턴 대화에 대해 피드백을 제공해줘야 한다.
-피드백은 반드시 각각의 질문에 답변하는 형식이 아닌, 모든 조건을 만족하는 하나의 지문으로 완성하라.
+피드백은 영어 회화를 공부하는 사람에게 제공하는 문구로 해석본과 같은 형태로 제공해야한다.
+아래의 예시와 같은 형태로 제공하라
 피드백 이외의 불필요한 문장은 삭제하여 글자수를 최소화 해야한다. 해당 문장에 대한 요약이나 해당 문장 전체를 언급하는 것을 최대한 자제하여 글자수를 최소화하라.
 피드백은 최대 500글자 이하로 작성되어야만한다.
 하나의 지문은 아래의 조건을 모두 만족해야만 한다.
 피드백이 필요한 문장은 이하 해당 문장으로 칭한다.
-1. 문장 전체에 대한 해석을 한국어로 작성하라.
-2. 영어 회화를 배우는 입장에서 유용하다고 생각되는 단어에 대해 해당 문장의 부분과 단어의 뜻을 작성하라.
-3. 영어 회화를 배우는 입장에서 유용하다고 생각되는 숙어 혹은 관용어 구문 대해 해당 문장의 부분과 숙어 혹은 관용어 구문의 뜻을 작성하라.
+1. 해당 문장의 정확한 해석을 한국어로 작성하라.
+2. 해당 문장 이외의 정보는 제공하지 않는다.
+3. 영어 회화를 배우는 입장에서 해당 문장에서 유용하다고 생각되는 단어와 뜻을 작성하라.
+4. 영어 회화를 배우는 입장에서 해당 문장에서 유용하다고 생각되는 숙어 혹은 관용어 구문과 뜻을 작성하라.
 예시:
-해석: "???"
+해석: [해당 문장의 정확한 한국어 해석]
 유용한 단어 :
 영 ??? / 한 ???
 영 ??? / 한 ???
@@ -407,7 +410,7 @@ struct feedbackSheetView: View{
                 
                 text = try await vm.api.getFeedback(
 text: """
-면접 상황중 아래의 문장 대해 피드백 해줘
+아래의 해당 문장 대해 피드백 해줘
 \(message.text)
 """
                 )
@@ -473,5 +476,4 @@ struct FeedbackButtonView: View, Identifiable{
         }
     }
 }
-
 
