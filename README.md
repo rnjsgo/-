@@ -82,6 +82,7 @@ https://youtu.be/2DY8MvrVP_U <br>
 <img width="420" alt="image" src="https://github.com/rnjsgo/jnu-capstone-project/assets/102651155/e052026e-f76c-4741-898f-b066cbc3a339">
 
 ### 클래스 다이어그램 (Server)
-<img width="420" alt="image" src="https://github.com/rnjsgo/jnu-capstone-project/assets/102651155/1385c970-1964-4529-9cc6-a0ec68335630">
+<img width="420" alt="image" src="https://github.com/rnjsgo/jnu-capstone-project/assets/102651155/229f820d-c2ef-42b0-9926-03bfcf314240">
+
 
 
